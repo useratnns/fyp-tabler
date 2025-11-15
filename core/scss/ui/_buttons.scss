@@ -216,6 +216,10 @@
   bottom: 1rem;
   left: 1rem;
   box-shadow: var(--#{$prefix}shadow-dropdown);
+
+  @include media-print {
+    display: none;
+  }
 }
 
 //
@@ -277,10 +281,18 @@
   &.show {
     color: var(--#{$prefix}primary);
   }
+
+  @include media-print {
+    display: none;
+  }
 }
 
 .btn-actions {
   display: flex;
+
+  @include media-print {
+    display: none;
+  }
 }
 
 .btn-animate-icon {
