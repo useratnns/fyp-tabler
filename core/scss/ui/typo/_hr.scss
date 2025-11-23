@@ -24,17 +24,17 @@ Hr text
 
   &:before {
     content: '';
-    margin-right: 0.5rem;
+    margin-inline-end: 0.5rem;
   }
 
   &:after {
     content: '';
-    margin-left: 0.5rem;
+    margin-inline-start: 0.5rem;
   }
 
   > *:first-child {
-    padding-right: 0.5rem;
-    padding-left: 0;
+    padding-inline-end: 0.5rem;
+    padding-inline-start: 0;
     color: var(--#{$prefix}secondary);
   }
 
@@ -45,8 +45,8 @@ Hr text
     }
 
     & > *:first-child {
-      padding-right: 0.5rem;
-      padding-left: 0.5rem;
+      padding-inline-end: 0.5rem;
+      padding-inline-start: 0.5rem;
     }
   }
 
@@ -61,8 +61,8 @@ Hr text
     }
 
     & > *:first-child {
-      padding-right: 0;
-      padding-left: 0.5rem;
+      padding-inline-end: 0;
+      padding-inline-start: 0.5rem;
     }
   }
 

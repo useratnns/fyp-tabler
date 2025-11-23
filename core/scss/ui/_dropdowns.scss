@@ -74,7 +74,7 @@
     content: '';
     position: absolute;
     top: -0.25rem;
-    left: 0.75rem;
+  inset-inline-start: 0.75rem;
     display: block;
     background: inherit;
     width: 14px;
@@ -90,8 +90,8 @@
 
   &.dropdown-menu-end {
     &:before {
-      right: 0.75rem;
-      left: auto;
+  inset-inline-end: 0.75rem;
+  inset-inline-start: auto;
     }
   }
 }
@@ -99,12 +99,12 @@
 .dropend {
   > .dropdown-menu {
     margin-top: subtract(calc(-1 * $dropdown-padding-y), 1px);
-    margin-left: -0.25rem;
+    margin-inline-start: -0.25rem;
   }
 
   .dropdown-toggle {
     &:after {
-      margin-left: auto;
+      margin-inline-start: auto;
     }
   }
 }
