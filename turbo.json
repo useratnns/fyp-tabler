@@ -10,24 +10,6 @@
       "dependsOn": [
         "^build"
       ],
-      "inputs": [
-        "core/scss/**",
-        "core/js/**",
-        "core/img/**",
-        "core/fonts/**",
-        "core/.build/**",
-        "preview/pages/**",
-        "preview/scss/**",
-        "preview/js/**",
-        "preview/.build/**",
-        "docs/content/**",
-        "docs/scss/**",
-        "docs/js/**",
-        "docs/.build/**",
-        "shared/**",
-        "package.json",
-        "pnpm-lock.yaml"
-      ],
       "outputs": [
         "dist/**",
         "demo/**"
