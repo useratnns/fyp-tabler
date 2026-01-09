@@ -1,8 +1,8 @@
 import { Tooltip } from './bootstrap'
 
-let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-tooltipTriggerList.map(function (tooltipTriggerEl) {
-  let options = {
+const tooltipTriggerList: HTMLElement[] = [].slice.call(document.querySelectorAll<HTMLElement>('[data-bs-toggle="tooltip"]'))
+tooltipTriggerList.map(function (tooltipTriggerEl: HTMLElement) {
+  const options = {
     delay: { show: 50, hide: 50 },
     html: tooltipTriggerEl.getAttribute('data-bs-html') === 'true',
     placement: tooltipTriggerEl.getAttribute('data-bs-placement') ?? 'auto',
