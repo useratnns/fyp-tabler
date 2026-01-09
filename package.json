@@ -10,7 +10,6 @@
     "type-check": "turbo type-check",
     "version": "changeset version",
     "publish": "changeset publish",
-    "playwright": "pnpm run build && pnpm run vt",
     "reformat-md": "tsx .build/reformat-mdx.ts",
     "lint": "pnpm run lint-md",
     "lint-md": "markdownlint docs/content/**/*.md",
@@ -22,10 +21,8 @@
     "shx": "^0.4.0"
   },
   "devDependencies": {
-    "@argos-ci/playwright": "^6.3.8",
     "@changesets/changelog-github": "^0.5.2",
     "@changesets/cli": "^2.29.8",
-    "@playwright/test": "^1.57.0",
     "adm-zip": "^0.5.16",
     "autoprefixer": "^10.4.23",
     "bundlewatch": "^0.4.1",
