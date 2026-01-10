@@ -9,8 +9,17 @@ import './src/tab'
 import './src/toast'
 import './src/sortable'
 
-// Re-export everything from bootstrap.ts (single source of truth)
-export * from './src/bootstrap'
+// Export Popper
+export * as Popper from '@popperjs/core'
+
+// Export all Bootstrap components directly for consistent usage
+export { Alert, Button, Carousel, Collapse, Dropdown, Modal, Offcanvas, Popover, ScrollSpy, Tab, Toast, Tooltip } from 'bootstrap'
+
+// Export custom Tabler components
+export { default as Autosize } from './src/autosize'
+
+// Re-export everything as namespace for backward compatibility
+export * as bootstrap from 'bootstrap'
 
 // Re-export tabler namespace
 export * as tabler from './src/tabler'
