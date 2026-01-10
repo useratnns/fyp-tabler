@@ -1,10 +1,7 @@
-import './src/autosize'
-import './src/countup'
 import './src/input-mask'
 import './src/dropdown'
 import './src/tooltip'
 import './src/popover'
-import './src/switch-icon'
 import './src/tab'
 import './src/toast'
 import './src/sortable'
@@ -18,6 +15,7 @@ export { Alert, Button, Carousel, Collapse, Dropdown, Modal, Offcanvas, Popover,
 // Export custom Tabler components
 export { default as Autosize } from './src/autosize'
 export { default as SwitchIcon } from './src/switch-icon'
+export { default as Countup } from './src/countup'
 
 // Re-export everything as namespace for backward compatibility
 export * as bootstrap from 'bootstrap'
