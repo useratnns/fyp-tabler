@@ -13,6 +13,8 @@ import autosize from 'autosize'
 const NAME = 'autosize'
 const DATA_KEY = `tblr.${NAME}`
 
+const SELECTOR_DATA_AUTOSIZE = '[data-bs-autosize]'
+
 /**
  * Class definition
  */
@@ -94,7 +96,7 @@ const elementMap = new WeakMap<HTMLElement | HTMLTextAreaElement, Autosize>()
 /**
  * Data API implementation
  */
-const autosizeTriggerList: HTMLElement[] = [].slice.call(document.querySelectorAll<HTMLElement>('[data-bs-autosize]'))
+const autosizeTriggerList: HTMLElement[] = [].slice.call(document.querySelectorAll<HTMLElement>(SELECTOR_DATA_AUTOSIZE))
 autosizeTriggerList.map(function (autosizeTriggerEl: HTMLElement) {
   const instance = Autosize.getOrCreateInstance(autosizeTriggerEl)
   elementMap.set(autosizeTriggerEl, instance)

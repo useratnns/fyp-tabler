@@ -17,6 +17,7 @@ export { Alert, Button, Carousel, Collapse, Dropdown, Modal, Offcanvas, Popover,
 
 // Export custom Tabler components
 export { default as Autosize } from './src/autosize'
+export { default as SwitchIcon } from './src/switch-icon'
 
 // Re-export everything as namespace for backward compatibility
 export * as bootstrap from 'bootstrap'
