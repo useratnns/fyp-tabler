@@ -37,6 +37,15 @@
         "^type-check"
       ],
       "cache": true
+    },
+    "test": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "coverage/**"
+      ],
+      "cache": true
     }
   }
 }

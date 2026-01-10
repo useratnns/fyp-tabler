@@ -1,4 +1,4 @@
-import IMask from 'imask'
+import IMask, { type InputMask as IMaskInputMask } from 'imask'
 
 /**
  * --------------------------------------------------------------------------
@@ -21,9 +21,9 @@ const SELECTOR_DATA_MASK = '[data-mask]'
 
 class InputMask {
   private element: HTMLElement | HTMLInputElement
-  private maskInstance: IMask.InputMask<IMask.AnyMaskedOptions> | null = null
+  private maskInstance: IMaskInputMask<any> | null = null
   private initialized: boolean = false
-  private options: IMask.AnyMaskedOptions = {}
+  private options: Record<string, any> = {}
 
   constructor(element: HTMLElement | HTMLInputElement) {
     this.element = element
@@ -52,7 +52,7 @@ class InputMask {
       return
     }
 
-    const options: IMask.AnyMaskedOptions = {
+    const options: Record<string, any> = {
       mask: mask,
       lazy: this.element.getAttribute('data-mask-visible') === 'true',
     }
@@ -66,12 +66,12 @@ class InputMask {
   /**
    * Update input mask (useful when mask changes programmatically)
    */
-  update(mask?: string, options?: Partial<IMask.AnyMaskedOptions>): void {
+  update(mask?: string, options?: Partial<Record<string, any>>): void {
     if (!this.initialized || !this.maskInstance) {
       return
     }
 
-    const newOptions: IMask.AnyMaskedOptions = {
+    const newOptions: Record<string, any> = {
       ...this.options,
       ...options,
     }
