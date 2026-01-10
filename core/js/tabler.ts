@@ -4,6 +4,7 @@ import './src/popover'
 import './src/tab'
 import './src/toast'
 import './src/sortable'
+import './src/clipboard'
 
 // Export Popper
 export * as Popper from '@popperjs/core'
@@ -16,6 +17,7 @@ export { default as Autosize } from './src/autosize'
 export { default as SwitchIcon } from './src/switch-icon'
 export { default as Countup } from './src/countup'
 export { default as InputMask } from './src/input-mask'
+export { default as Clipboard } from './src/clipboard'
 
 // Re-export everything as namespace for backward compatibility
 export * as bootstrap from 'bootstrap'
