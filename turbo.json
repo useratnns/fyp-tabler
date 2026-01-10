@@ -39,9 +39,6 @@
       "cache": true
     },
     "test": {
-      "dependsOn": [
-        "^build"
-      ],
       "outputs": [
         "coverage/**"
       ],

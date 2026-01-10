@@ -4,6 +4,10 @@ import './src/popover'
 import './src/tab'
 import './src/toast'
 import './src/sortable'
+import './src/switch-icon'
+import './src/autosize'
+import './src/countup'
+import './src/input-mask'
 import './src/clipboard'
 
 // Export Popper
