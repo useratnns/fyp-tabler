@@ -4,6 +4,9 @@ summary: Avatars help customize various elements of a user interface and make th
 description: Personalize UI with user avatars.
 ---
 
+{% capture html %}{% include "ui/avatar.html" %}{% endcapture %}
+{% include "docs/component.html" html=html width-start=40 height=40 icon-size=24 icon-x=8 icon-y=8 border=0 %}
+
 ## Default markup
 
 Use the `avatar` class to add an avatar to your interface design for greater customization.

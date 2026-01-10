@@ -9,6 +9,11 @@ Offcanvas is a sidebar component that can be toggled via JavaScript to appear fr
 To create an offcanvas, add the `.offcanvas` class to a container element. You can also add the `.offcanvas-start`, `.offcanvas-end`, `.offcanvas-top`, or `.offcanvas-bottom` class to specify the position of the offcanvas. The `.show` class is used to display the offcanvas.
 
 {% capture html -%}
+<button class="btn" data-bs-toggle="offcanvas" href="#offcanvas" role="button" aria-controls="offcanvas">
+  Toggle offcanvas
+</button>
+{%- endcapture %}
+{% capture html-teleport -%}
 <div
   class="offcanvas offcanvas-start"
   tabindex="-1"
@@ -22,13 +27,18 @@ To create an offcanvas, add the `.offcanvas` class to a container element. You c
   </div>
 </div>
 {%- endcapture %}
-{% include "docs/example.html" html=html raw %}
+{% include "docs/example.html" html=html html-teleport=html-teleport centered %}
 
 ## Cookies banner
 
 The offcanvas component is used to display a cookies banner. It is a great way to inform users about the use of cookies on your website and to get their consent.
 
 {% capture html -%}
+<button class="btn" data-bs-toggle="offcanvas" href="#offcanvasBottom" role="button" aria-controls="offcanvas">
+  🍪 Show cookie banner
+</button>
+{%- endcapture %}
+{% capture html-teleport -%}
 <div
   class="offcanvas offcanvas-bottom h-auto"
   tabindex="-1"
@@ -60,7 +70,7 @@ The offcanvas component is used to display a cookies banner. It is a great way t
   </div>
 </div>
 {%- endcapture %}
-{% include "docs/example.html" html=html raw %}
+{% include "docs/example.html" html=html html-teleport=html-teleport centered %}
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

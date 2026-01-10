@@ -1,0 +1,50 @@
+---
+layout: default
+title: El Test
+permalink: /el-test.html
+page-header: El Test
+---
+
+<div class="card">
+   <div class="card-body">
+      <div class="space-y">
+         {% capture html %}{% include "ui/button.html" text="Button" %}{% endcapture %}
+         {% include "docs/component.html" html=html padding=16 height-start=40 margin-bottom=16 %}
+
+         {% capture html %}{% include "ui/button.html" text="Button" icon="user-circle" %}{% endcapture %}
+         {% include "docs/component.html" html=html padding-right=16 padding-left=12 gap=8 gap-start=32 height-start=40 margin-left=16 margin-right=16 icon-size=20 icon-x=12 icon-y=9 %}
+
+         {% capture html %}{% include "ui/button.html" text="Button" icon-end="user-circle" %}{% endcapture %}
+         {% include "docs/component.html" html=html padding-right=12 padding-left=16 gap=8 gap-end=32 height=40 icon-size=20 icon-end-x=12 icon-y=9 %}
+
+         {% capture html %}{% include "ui/avatar.html" %}{% endcapture %}
+         {% include "docs/component.html" html=html height=40  width=40 %}
+
+         {% capture html %}{% include "ui/avatar.html" %}{% endcapture %}
+         {% include "docs/component.html" html=html height-start=40 width=40 width-start %}
+
+         {% capture html %}<input type="text" class="form-control" placeholder="Input placeholder">{% endcapture %}
+         {% include "docs/component.html" html=html height=40 padding-top=8 padding-bottom=8 padding-left=16 padding-right=16 %}
+
+         {% capture html %}<textarea class="form-control" rows="3" placeholder="Textarea placeholder"></textarea>{% endcapture %}
+         {% include "docs/component.html" html=html padding=12 height=80 %}
+
+         {% capture html %}{% include "ui/form/input-icon.html" icon="search" placeholder="Search…" %}{% endcapture %}
+         {% include "docs/component.html" html=html padding-right=8 padding-left=16 height=40 %}
+
+         {% capture html %}{% include "ui/progress.html" value=50 %}{% endcapture %}
+         {% include "docs/component.html" html=html height=8 max-width=300 %}
+
+         {% capture html %}{% include "ui/alert.html" type="success" title="Success alert" class="m-0" %}{% endcapture %}
+         {% include "docs/component.html" html=html padding=16 max-width=400 %}
+
+         {% capture html %}{% include "ui/badge.html" text="Badge" color="blue" %}{% endcapture %}
+         {% include "docs/component.html" html=html padding=8 height=24 %}
+
+         {% capture html %}<div class="card"><div class="card-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div></div>{% endcapture %}
+         {% include "docs/component.html" html=html padding=20 max-width=400 %}
+
+
+      </div>
+   </div>
+</div>

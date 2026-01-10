@@ -1,0 +1,143 @@
+{% removeemptylines %}
+{% assign border = include.border | default: 1 %}
+{% assign height = include.height | default: include.height-start | default: false %}
+{% assign width = include.width | default: include.width-start | default: false %}
+
+{% assign icon-size = include.icon-size | default: false %}
+{% assign icon-x = include.icon-x | default: 0 %}
+{% assign icon-y = include.icon-y | default: 0 %}
+
+{% assign padding-left = include.padding-left | default: include.padding | default: false %}
+{% assign padding-right = include.padding-right | default: include.padding | default: false %}
+{% assign padding-top = include.padding-top | default: false %}
+{% assign padding-bottom = include.padding-bottom | default: false %}
+
+{% assign gap = include.gap | default: false %}
+{% assign gap-start = include.gap-start | default: false %}
+{% assign gap-end = include.gap-end | default: false %}
+
+{% assign size-color = 'var(--tblr-blue)' %}
+{% assign margin-color = 'var(--tblr-purple)' %}
+{% assign padding-color = 'var(--tblr-pink)' %}
+{% assign icon-color = 'var(--tblr-green)' %}
+
+<div
+   class="border fs-base lh-base rounded px-4 py-8 my-5 d-flex justify-content-center align-items-center bg-surface-secondary{% if include.class %} {{ include.class }}{% endif %}">
+   <div style="display: flex; flex-direction: column;">
+      <div style="display: flex; flex-direction: row; max-width: 100%; pointer-events: none;">
+         {% if include.margin-left %}
+         <div style="position: relative; width: {{ include.margin-left }}px;">
+            <div style="position: absolute; color: {{ margin-color }}; display: flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1; pointer-events: none; width: 100%; left: 0; right: 0; top: calc(100% + 0.5rem); border-top: 1px solid {{ margin-color }}; border-color: {{ margin-color }}; padding-top: 0.25rem;">
+               {{ include.margin-left }}px
+               <div style="position: absolute; border: 0 solid {{ margin-color }}; left: 0; right: 0; top: -3px; height: 5px; border-left-width: 1px; border-right-width: 1px; border-color: {{ margin-color }};"></div>
+            </div>
+            <div style="background: {{ margin-color }}; position: relative; height: 100%; opacity: .1;"></div>
+         </div>
+         {% endif %}
+         {% # element %}
+         <div style="position: relative; display: inline-flex; max-width: 100%;">
+            <div style="display: block; position: relative;{% if include.max-width %} width: {{ include.max-width }}px; max-width: 100%;{% endif %}">
+               {{ include.html }}
+            </div>
+            {% if icon-size %}
+            <div style="position: absolute; background: {{ icon-color }}; opacity: .1; top: {{ icon-y | plus: border }}px; width: {{ icon-size }}px; height: {{ icon-size }}px; {% if include.icon-end-x %}right: {{ include.icon-end-x | plus: border }}px; {% else %}left: {{ icon-x | plus: border }}px; {% endif %}"></div>
+            <div
+               style="position: absolute; top: {{ icon-y | plus: border }}px; width: {{ icon-size }}px; height: {{ icon-size }}px; border: 1px solid {{ icon-color }};{% if include.icon-end-x %}right: {{ include.icon-end-x | plus: border }}px; {% else %}left: {{ icon-x | plus: border }}px; {% endif %}">
+               <div
+                  style="position: absolute; top: 100%; left: 50%; height: {% if include.margin-left or include.margin-right %}40px{% else %}20px{% endif %}; border-left: 1px solid {{ icon-color }};">
+                  <div style="position: absolute; top: 100%; left: 0; transform: translateX(-50%); text-align: center; font-size: 11px; line-height: 1; pointer-events: none; color: {{ icon-color }}; padding-top: .25rem;">
+                     {{ icon-size }}&times;{{ icon-size }}px
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+            {% if height or height-start %}
+            {% # height of element %}
+            <div style="position: absolute; color: {{ size-color }}; display: flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1; pointer-events: none; height: 100%; top: 0; bottom: 0; {% if include.height-start %}right: calc(100% + {{ include.margin-left | default: 0 }}px + .5rem); padding-right: .25rem; border-right: 1px solid {{ size-color }}; {% else %}left: calc(100% + {{ include.margin-left | default: 0 }}px + .5rem); padding-left: .25rem; border-left: 1px solid ; {% endif %}">
+               {{ height }}px
+               <div style="position: absolute; border: 0 solid {{ size-color }}; top: 0; bottom: 0; width: 5px; border-top-width: 1px; border-bottom-width: 1px;{% if include.height-start %} right: -3px;{% else %} left: -3px;{% endif %}"></div>
+            </div>
+            {% endif %}
+            {% if width %}
+            {% # width of element %}
+            <div
+               style="position: absolute; color: {{ size-color }}; display: flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1; pointer-events: none; left: 0; right: 0; {% if include.width-start %}bottom: calc(100% + .5rem); padding-bottom: .25rem; border-bottom: 1px solid {{ size-color }}; {% else %}top: calc(100% + .5rem); padding-top: .25rem; border-top: 1px solid; {% endif %}">
+               {{ width }}px
+               <div style="position: absolute; border: 0 solid {{ size-color }}; left: 0; right: 0; height: 5px; border-left-width: 1px; border-right-width: 1px;{% if include.width-start %} bottom: -3px;{% else %} top: -3px;{% endif %}"></div>
+            </div>
+            {% endif %}
+            {% if padding-left %}
+            <div style="position: absolute; color: {{ padding-color }}; display: flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1; pointer-events: none; left: {{ border }}px; bottom: calc(100% + 0.5rem); border-bottom: 1px solid {{ padding-color }}; padding-bottom: 0.25rem; width: {{ padding-left }}px;">
+               {{ padding-left }}px
+               <div style="position: absolute; border: 0 solid {{ padding-color }}; left: 0; right: 0; bottom: -3px; height: 5px; border-left-width: 1px; border-right-width: 1px; border-color: {{ padding-color }};"></div>
+            </div>
+            <div style="background: {{ padding-color }}; opacity: .1; position: absolute; top: {{ border }}px; bottom: {{ border }}px; left: {{ border }}px; width: {{ padding-left }}px;"></div>
+            {% endif %}
+            {% if padding-right %}
+            <div style="position: absolute; color: {{ padding-color }}; display: flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1; pointer-events: none; left: auto; right: {{ border }}px; bottom: calc(100% + 0.5rem); border-bottom: 1px solid {{ padding-color }}; padding-bottom: 0.25rem; width: {{ padding-right }}px;">
+               {{ padding-right }}px
+               <div style="position: absolute; border: 0 solid {{ padding-color }}; left: 0; right: 0; bottom: -3px; height: 5px; border-left-width: 1px; border-right-width: 1px; border-color: {{ padding-color }};"></div>
+            </div>
+            <div style="background: {{ padding-color }}; opacity: .1; position: absolute; top: {{ border }}px; bottom: {{ border }}px; left: auto; right: {{ border }}px; width: {{ padding-right }}px;"></div>
+            {% endif %}
+            {% if padding-top %}
+            <div
+               style="position: absolute; color: {{ padding-color }}; display: flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1; pointer-events: none; top: {{ border }}px; right: calc(100% + 0.5rem); border-right: 1px solid {{ padding-color }}; padding-right: 0.25rem; height: {{ padding-top }}px;">
+               {{ padding-top }}px
+               <div
+                  style="position: absolute; border: 0 solid {{ padding-color }}; top: 0; bottom: 0; right: -3px; width: 5px; border-top-width: 1px; border-bottom-width: 1px; border-color: {{ padding-color }};">
+               </div>
+            </div>
+            <div
+               style="background: {{ padding-color }}; opacity: .1; position: absolute; left: {{ border | plus: padding-left }}px; right: {{ border | plus: padding-right }}px; top: {{ border }}px; height: {{ padding-top }}px;">
+            </div>
+            {% endif %}
+            {% if padding-bottom %}
+            <div
+               style="position: absolute; color: {{ padding-color }}; display: flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1; pointer-events: none; bottom: {{ border }}px; right: calc(100% + 0.5rem); border-right: 1px solid {{ padding-color }}; padding-right: 0.25rem; height: {{ padding-bottom }}px;">
+               {{ padding-bottom }}px
+               <div
+                  style="position: absolute; border: 0 solid {{ padding-color }}; top: 0; bottom: 0; right: -3px; width: 5px; border-top-width: 1px; border-bottom-width: 1px; border-color: {{ padding-color }};">
+               </div>
+            </div>
+            <div
+               style="background: {{ padding-color }}; opacity: .1; position: absolute; left: {{ border | plus: padding-left }}px; right: {{ border | plus: padding-right }}px; bottom: {{ border }}px; height: {{ padding-bottom }}px;">
+            </div>
+            {% endif %}
+            {% if gap and gap-start %}
+            <div style="position: absolute; color: {{ padding-color }}; display: flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1; pointer-events: none; left: {{ gap-start | plus: border }}px; bottom: calc(100% + 0.5rem); border-bottom: 1px solid {{ padding-color }}; padding-bottom: 0.25rem; width: {{ gap }}px;">
+               {{ gap }}px
+               <div style="position: absolute; border: 0 solid {{ padding-color }}; left: 0; right: 0; bottom: -3px; height: 5px; border-left-width: 1px; border-right-width: 1px; border-color: {{ padding-color }};"></div>
+            </div>
+            <div style="background: {{ padding-color }}; opacity: .1; position: absolute; top: {{ border }}px; bottom: {{ border }}px; left: {{ gap-start | plus: border  }}px; width: {{ gap }}px;"></div>
+            {% endif %}
+            {% if gap and gap-end %}
+            <div style="position: absolute; color: {{ padding-color }}; display: flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1; pointer-events: none; right: {{ gap-end }}px; left: auto; bottom: calc(100% + 0.5rem); border-bottom: 1px solid {{ padding-color }}; padding-bottom: 0.25rem; width: {{ gap }}px;">
+               {{ gap }}px
+               <div style="position: absolute; border: 0 solid {{ padding-color }}; left: 0; right: 0; bottom: -3px; height: 5px; border-left-width: 1px; border-right-width: 1px; border-color: {{ padding-color }};"></div>
+            </div>
+            <div style="background: {{ padding-color }}; opacity: .1; position: absolute; top: {{ border }}px; bottom: {{ border }}px; right: {{ gap-end }}px; left: auto; width: {{ gap }}px;"></div>
+            {% endif %}
+         </div>
+         {% if include.margin-right %}
+         <div style="position: relative; width: {{ include.margin-right }}px;">
+            <div style="position: absolute; color: {{ margin-color }}; display: flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1; pointer-events: none; width: 100%; left: 0; right: 0; top: calc(100% + 0.5rem); border-top: 1px solid {{ margin-color }}; border-color: {{ margin-color }}; padding-top: 0.25rem;">
+               {{ include.margin-right }}px
+               <div style="position: absolute; border: 0 solid {{ margin-color }}; left: 0; right: 0; top: -3px; height: 5px; border-left-width: 1px; border-right-width: 1px; border-color: {{ margin-color }};"></div>
+            </div>
+            <div style="background: {{ margin-color }}; position: relative; height: 100%; opacity: .1;"></div>
+         </div>
+         {% endif %}
+      </div>
+      {% if include.margin-bottom %}
+      <div style="position: relative; width: 100%; height: {{ include.margin-bottom }}px;">
+         <div style="position: absolute; color: {{ margin-color }}; display: flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1; pointer-events: none; height: 100%; top: 0; bottom: 0; left: calc(100% + 0.5rem); border-left: 1px solid {{ margin-color }}; border-color: {{ margin-color }}; padding-left: 0.25rem;">
+            {{ include.margin-bottom }}px
+            <div style="position: absolute; border: 0 solid {{ margin-color }}; top: 0; bottom: 0; left: -3px; width: 5px; border-top-width: 1px; border-bottom-width: 1px; border-color: {{ margin-color }};"></div>
+         </div>
+         <div style="background: {{ margin-color }}; position: relative; height: 100%; opacity: .1;"></div>
+      </div>
+      {% endif %}
+   </div>
+</div>
+{% endremoveemptylines %}

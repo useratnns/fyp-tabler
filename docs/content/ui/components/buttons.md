@@ -5,6 +5,9 @@ bootstrapLink: components/buttons/
 description: Customizable buttons for user actions.
 ---
 
+{% capture html %}{% include "ui/button.html" text="Button" icon="user-circle" %}{% endcapture %}
+{% include "docs/component.html" html=html padding-right=16 padding-left=12 gap=8 gap-start=32 height-start=40 icon-size=20 icon-x=12 icon-y=9 %}
+
 ## Button tag
 
 As one of the most common elements of UI design, buttons have a very important function of engaging users within your website or app and guiding them in their actions. Use the `.btn` classes with the `<button>` element and add additional styling that will make your buttons serve their purpose and draw users' attention.

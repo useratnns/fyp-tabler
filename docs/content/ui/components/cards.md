@@ -5,6 +5,9 @@ bootstrapLink: components/card/
 description: Organize content with flexible cards.
 ---
 
+{% capture html %}{% include "cards/card.html" %}{% endcapture %}
+{% include "docs/component.html" html=html padding-left=20 padding-right=20 padding-top=16 padding-bottom=16 max-width=300 %}
+
 ## Default card
 
 Use the `.card` and `.card-body` classes to create a card and use it as the basis for a more advanced card design. A card is a perfect way to organize content and make it look neat and tidy.
