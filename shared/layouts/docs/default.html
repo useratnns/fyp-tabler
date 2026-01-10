@@ -64,13 +64,12 @@
 		rel="stylesheet" />
 	{% endfor %}
 
-
 	{% if docs-libs -%}
-	{% for lib in libs.css -%}
+	{% for lib in libs -%}
 	{% if docs-libs contains lib[0] -%}
-	{% for file in lib[1] -%}
+	{% for file in lib[1].css -%}
 	<link
-		href="{% if file contains 'http://' or file contains 'https://' %}{{ file }}{% else %}{{ page | relative }}/libs/{% if environment != 'development' %}{{ file | replace: '@', '' }}{% else %}{{ file }}{% endif %}{% if environment != 'development' %}?{{ 'now' | date: '%s' }}{% endif %}{% endif %}"
+		href="{% if file contains 'http://' or file contains 'https://' %}{{ file }}{% else %}/dist/libs/{{ lib[1].npm }}/{% if environment != 'development' %}{{ file | replace: '@', '' }}{% else %}{{ file }}{% endif %}{% if environment != 'development' %}?{{ 'now' | date: '%s' }}{% endif %}{% endif %}"
 		rel="stylesheet" />
 	{% endfor -%}
 	{% endif -%}
