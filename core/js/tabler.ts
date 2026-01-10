@@ -1,4 +1,3 @@
-import './src/input-mask'
 import './src/dropdown'
 import './src/tooltip'
 import './src/popover'
@@ -16,6 +15,7 @@ export { Alert, Button, Carousel, Collapse, Dropdown, Modal, Offcanvas, Popover,
 export { default as Autosize } from './src/autosize'
 export { default as SwitchIcon } from './src/switch-icon'
 export { default as Countup } from './src/countup'
+export { default as InputMask } from './src/input-mask'
 
 // Re-export everything as namespace for backward compatibility
 export * as bootstrap from 'bootstrap'
