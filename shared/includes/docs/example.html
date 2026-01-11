@@ -8,9 +8,9 @@
 
 {% unless include.hide-code %}
 <div class="position-relative">
-<a class="btn btn-icon btn-dark position-absolute m-2 top-0 end-0 z-3" data-bs-clipboard="{{ include.html | escape_attribute }}" data-clipboard-icon-default=".icon-clipboard" data-clipboard-icon-success=".icon-check">
-	<span class="icon-clipboard">{% include "ui/icon.html" icon="clipboard" %}</span>
-	<span class="icon-check d-none">{% include "ui/icon.html" icon="check" %}</span>
+<a class="btn btn-icon btn-dark position-absolute m-2 top-0 end-0 z-3" data-bs-toggle="copy" data-bs-copy-text="{{ include.html | escape_attribute }}">
+	{% include "ui/icon.html" icon="clipboard" attributes="data-bs-copy-default" %}
+	{% include "ui/icon.html" icon="check" attributes="data-bs-copy-success" class="d-none" %}
 </a>
 
 ```html

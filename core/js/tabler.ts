@@ -11,7 +11,7 @@ import './src/switch-icon'
 import './src/autosize'
 import './src/countup'
 import './src/input-mask'
-import './src/clipboard'
+import './src/copy'
 import Theme from './src/theme'
 
 // Export Popper
@@ -25,6 +25,7 @@ export { default as Autosize } from './src/autosize'
 export { default as SwitchIcon } from './src/switch-icon'
 export { default as Countup } from './src/countup'
 export { default as InputMask } from './src/input-mask'
+export { default as Copy } from './src/copy'
 export { default as Clipboard } from './src/clipboard'
 
 // Re-export everything as namespace for backward compatibility

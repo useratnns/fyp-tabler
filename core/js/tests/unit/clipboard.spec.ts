@@ -1,374 +1,346 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
-import Clipboard from '../../src/clipboard'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { Tooltip } from 'bootstrap'
+import Copy from '../../src/copy'
 import { getFixture, clearFixture } from '../helpers/fixture'
 
-/**
- * Unit tests for Clipboard plugin
- * Following Bootstrap's test structure pattern
- */
-
-// Mock ClipboardJS
-vi.mock('clipboard', () => {
-  const mockOn = vi.fn()
-  const mockDestroy = vi.fn()
-  const mockClearSelection = vi.fn()
-
-  const MockClipboardJS = vi.fn().mockImplementation(() => {
-    return {
-      on: mockOn,
-      destroy: mockDestroy,
-    }
-  })
-
-  MockClipboardJS.prototype.on = mockOn
-  MockClipboardJS.prototype.destroy = mockDestroy
-
-  return {
-    default: MockClipboardJS,
-    __mockOn: mockOn,
-    __mockDestroy: mockDestroy,
-    __mockClearSelection: mockClearSelection,
-  }
-})
-
-describe('Clipboard', () => {
+describe('Copy', () => {
   let fixtureEl: HTMLDivElement
-  let mockClipboardJS: any
-  let mockOn: any
-  let mockDestroy: any
+  let clipboardWriteText: ReturnType<typeof vi.fn>
+  let originalClipboardDescriptor: PropertyDescriptor | undefined
+  let originalExecCommand: any
 
-  beforeEach(async () => {
+  const setNavigatorClipboard = (writeTextImpl: (text: string) => Promise<void>) => {
+    originalClipboardDescriptor = Object.getOwnPropertyDescriptor(navigator, 'clipboard')
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText: writeTextImpl },
+      configurable: true,
+    })
+  }
+
+  beforeEach(() => {
     fixtureEl = getFixture()
     clearFixture()
 
-    // Import mocked ClipboardJS
-    const clipboardModule = await import('clipboard')
-    mockClipboardJS = clipboardModule.default
-    mockOn = (clipboardModule as any).__mockOn
-    mockDestroy = (clipboardModule as any).__mockDestroy
+    clipboardWriteText = vi.fn().mockResolvedValue(undefined)
+    setNavigatorClipboard(clipboardWriteText)
 
-    // Reset mocks
+    originalExecCommand = (document as any).execCommand
+    ;(document as any).execCommand = vi.fn().mockReturnValue(false)
+
     vi.clearAllMocks()
   })
 
   afterEach(() => {
     vi.useRealTimers()
+
+    if (originalClipboardDescriptor) {
+      Object.defineProperty(navigator, 'clipboard', originalClipboardDescriptor)
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+      delete (navigator as any).clipboard
+    }
+
+    ;(document as any).execCommand = originalExecCommand
   })
 
-  describe('getInstance', () => {
-    it('should return null if there is no instance', () => {
-      fixtureEl.innerHTML = '<button data-bs-clipboard="test text"></button>'
+  describe('getInstance / getOrCreateInstance', () => {
+    it('should return null when instance does not exist', () => {
+      fixtureEl.innerHTML = '<button data-bs-toggle="copy" data-bs-copy-text="x"></button>'
       const buttonEl = fixtureEl.querySelector('button') as HTMLElement
 
-      expect(Clipboard.getInstance(buttonEl)).toBeNull()
+      expect(Copy.getInstance(buttonEl)).toBeNull()
     })
 
-    it('should return instance when created via Data API', () => {
-      // Simulate Data API behavior
-      fixtureEl.innerHTML = '<button data-bs-clipboard="test text"></button>'
+    it('should create and store instance on element', () => {
+      fixtureEl.innerHTML = '<button data-bs-toggle="copy" data-bs-copy-text="x"></button>'
       const buttonEl = fixtureEl.querySelector('button') as HTMLElement
 
-      const instance = Clipboard.getOrCreateInstance(buttonEl)
-      // Note: In real Data API, elementMap.set() is called, but getOrCreateInstance doesn't do that
-      // So we test that getInstance returns null when instance is not in map
-      expect(Clipboard.getInstance(buttonEl)).toBeNull()
-    })
-  })
+      const instance1 = Copy.getOrCreateInstance(buttonEl)
+      expect(instance1).toBeInstanceOf(Copy)
+      expect(Copy.getInstance(buttonEl)).toBe(instance1)
 
-  describe('getOrCreateInstance', () => {
-    it('should return new instance when there is no instance', () => {
-      fixtureEl.innerHTML = '<button data-bs-clipboard="test text"></button>'
-      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
-
-      const clipboard = Clipboard.getOrCreateInstance(buttonEl)
-
-      expect(clipboard).toBeInstanceOf(Clipboard)
-      expect(Clipboard.getInstance(buttonEl)).toBeNull()
+      const instance2 = Copy.getOrCreateInstance(buttonEl)
+      expect(instance2).toBe(instance1)
     })
 
-    it('should return same instance when element is in map', () => {
-      fixtureEl.innerHTML = '<button data-bs-clipboard="test text"></button>'
+    it('dispose should remove stored instance', () => {
+      fixtureEl.innerHTML = '<button data-bs-toggle="copy" data-bs-copy-text="x"></button>'
       const buttonEl = fixtureEl.querySelector('button') as HTMLElement
 
-      // Manually add to map (simulating Data API behavior)
-      const clipboard1 = Clipboard.getOrCreateInstance(buttonEl)
-      // Access elementMap through a workaround - we'll test via getInstance after manual map addition
-      // Since we can't directly access elementMap, we test that getOrCreateInstance creates new instances
-      const clipboard2 = Clipboard.getOrCreateInstance(buttonEl)
+      const instance = Copy.getOrCreateInstance(buttonEl)!
+      expect(Copy.getInstance(buttonEl)).toBe(instance)
 
-      expect(clipboard1).toBeInstanceOf(Clipboard)
-      expect(clipboard2).toBeInstanceOf(Clipboard)
-      // Without being in map, they are different instances
-      expect(clipboard1).not.toBe(clipboard2)
+      instance.dispose()
+      expect(Copy.getInstance(buttonEl)).toBeNull()
     })
   })
 
-  describe('init', () => {
-    it('should initialize clipboard instance', () => {
-      fixtureEl.innerHTML = '<button data-bs-clipboard="test text"></button>'
-      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
-      const clipboard = new Clipboard(buttonEl)
-
-      clipboard.init()
-
-      expect(mockClipboardJS).toHaveBeenCalledWith(buttonEl, {
-        text: expect.any(Function),
-      })
-      expect(mockOn).toHaveBeenCalledWith('success', expect.any(Function))
-      expect(mockOn).toHaveBeenCalledWith('error', expect.any(Function))
-    })
-
-    it('should not initialize if already initialized', () => {
-      fixtureEl.innerHTML = '<button data-bs-clipboard="test text"></button>'
-      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
-      const clipboard = new Clipboard(buttonEl)
-
-      clipboard.init()
-      vi.clearAllMocks()
-      clipboard.init()
-
-      expect(mockClipboardJS).not.toHaveBeenCalled()
-    })
-
-    it('should not initialize if data-bs-clipboard attribute is missing', () => {
-      fixtureEl.innerHTML = '<button></button>'
-      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
-      const clipboard = new Clipboard(buttonEl)
-
-      clipboard.init()
-
-      expect(mockClipboardJS).not.toHaveBeenCalled()
-    })
-
-    it('should use text from data-bs-clipboard attribute', () => {
-      fixtureEl.innerHTML = '<button data-bs-clipboard="custom text"></button>'
-      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
-      const clipboard = new Clipboard(buttonEl)
-
-      clipboard.init()
-
-      expect(mockClipboardJS).toHaveBeenCalled()
-      const config = mockClipboardJS.mock.calls[0][1]
-      const textFunction = config.text
-      expect(textFunction(buttonEl)).toBe('custom text')
-    })
-  })
-
-  describe('dispose', () => {
-    it('should destroy clipboard instance', () => {
-      fixtureEl.innerHTML = '<button data-bs-clipboard="test text"></button>'
-      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
-      const clipboard = new Clipboard(buttonEl)
-
-      clipboard.init()
-      clipboard.dispose()
-
-      expect(mockDestroy).toHaveBeenCalled()
-    })
-
-    it('should do nothing if not initialized', () => {
-      fixtureEl.innerHTML = '<button data-bs-clipboard="test text"></button>'
-      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
-      const clipboard = new Clipboard(buttonEl)
-
-      expect(() => {
-        clipboard.dispose()
-      }).not.toThrow()
-      expect(mockDestroy).not.toHaveBeenCalled()
-    })
-
-    it('should clear success timeout if set', () => {
-      vi.useFakeTimers()
-      fixtureEl.innerHTML = '<button data-bs-clipboard="test text" class="btn-dark"></button>'
-      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
-      const clipboard = new Clipboard(buttonEl)
-
-      clipboard.init()
-
-      // Simulate success event to set timeout
-      const successHandler = mockOn.mock.calls.find((call: any[]) => call[0] === 'success')?.[1]
-      expect(successHandler).toBeDefined()
-      
-      const mockEvent = {
-        clearSelection: vi.fn(),
-        trigger: buttonEl,
-      }
-      successHandler(mockEvent)
-      
-      // Verify success class was added
-      expect(buttonEl.classList.contains('btn-success')).toBe(true)
-      
-      // Dispose should clear timeout without throwing
-      expect(() => {
-        clipboard.dispose()
-      }).not.toThrow()
-      
-      expect(mockDestroy).toHaveBeenCalled()
-    })
-  })
-
-  describe('success event handling', () => {
-    it('should handle success event and update classes', () => {
-      vi.useFakeTimers()
-      fixtureEl.innerHTML = '<button data-bs-clipboard="test text" class="btn-dark"></button>'
-      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
-      const clipboard = new Clipboard(buttonEl)
-
-      clipboard.init()
-
-      // Get success handler
-      const successHandler = mockOn.mock.calls.find((call: any[]) => call[0] === 'success')?.[1]
-      expect(successHandler).toBeDefined()
-
-      // Simulate success event
-      const mockEvent = {
-        clearSelection: vi.fn(),
-        trigger: buttonEl,
-      }
-      successHandler(mockEvent)
-
-      expect(mockEvent.clearSelection).toHaveBeenCalled()
-      expect(buttonEl.classList.contains('btn-success')).toBe(true)
-      expect(buttonEl.classList.contains('btn-dark')).toBe(false)
-    })
-
-    it('should handle icons with data attributes', () => {
-      vi.useFakeTimers()
+  describe('copy()', () => {
+    it('should copy text from data-bs-copy-text and set copied state', async () => {
       fixtureEl.innerHTML = `
-        <button 
-          data-bs-clipboard="test text" 
-          class="btn-dark"
-          data-clipboard-icon-default=".icon-clipboard"
-          data-clipboard-icon-success=".icon-check"
-        >
-          <span class="icon-clipboard">Clipboard</span>
-          <span class="icon-check d-none">Check</span>
+        <button data-bs-toggle="copy" data-bs-copy-text="hello">
+          <span data-bs-copy-default>Default</span>
+          <span data-bs-copy-success hidden>Success</span>
         </button>
       `
       const buttonEl = fixtureEl.querySelector('button') as HTMLElement
-      const clipboard = new Clipboard(buttonEl)
-      const defaultIcon = buttonEl.querySelector('.icon-clipboard') as HTMLElement
-      const successIcon = buttonEl.querySelector('.icon-check') as HTMLElement
+      const def = buttonEl.querySelector('[data-bs-copy-default]') as HTMLElement
+      const success = buttonEl.querySelector('[data-bs-copy-success]') as HTMLElement
 
-      clipboard.init()
+      const instance = Copy.getOrCreateInstance(buttonEl)!
+      const ok = await instance.copy()
 
-      // Get success handler
-      const successHandler = mockOn.mock.calls.find((call: any[]) => call[0] === 'success')?.[1]
-
-      // Simulate success event
-      const mockEvent = {
-        clearSelection: vi.fn(),
-        trigger: buttonEl,
-      }
-      successHandler(mockEvent)
-
-      expect(defaultIcon.classList.contains('d-none')).toBe(true)
-      expect(successIcon.classList.contains('d-none')).toBe(false)
-
-      // Fast-forward timeout
-      vi.advanceTimersByTime(2000)
-
-      expect(defaultIcon.classList.contains('d-none')).toBe(false)
-      expect(successIcon.classList.contains('d-none')).toBe(true)
-      expect(buttonEl.classList.contains('btn-success')).toBe(false)
-      expect(buttonEl.classList.contains('btn-dark')).toBe(true)
+      expect(ok).toBe(true)
+      expect(clipboardWriteText).toHaveBeenCalledWith('hello')
+      expect(buttonEl.classList.contains('is-copied')).toBe(true)
+      expect(buttonEl.getAttribute('aria-label')).toBe('Copied')
+      expect(def.hidden).toBe(true)
+      expect(success.hidden).toBe(false)
     })
 
-    it('should handle fallback icon switching (children)', () => {
+    it('should fire cancelable COPY event and respect preventDefault()', async () => {
+      fixtureEl.innerHTML = '<button data-bs-toggle="copy" data-bs-copy-text="hello"></button>'
+      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
+
+      buttonEl.addEventListener(Copy.Event.COPY, (e) => e.preventDefault())
+
+      const instance = Copy.getOrCreateInstance(buttonEl)!
+      const ok = await instance.copy()
+
+      expect(ok).toBe(false)
+      expect(clipboardWriteText).not.toHaveBeenCalled()
+    })
+
+    it('should emit COPYFAIL when there is no text', async () => {
+      fixtureEl.innerHTML = '<button data-bs-toggle="copy"></button>'
+      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
+
+      const onFail = vi.fn()
+      buttonEl.addEventListener(Copy.Event.COPYFAIL, onFail as any)
+
+      const instance = Copy.getOrCreateInstance(buttonEl)!
+      const ok = await instance.copy()
+
+      expect(ok).toBe(false)
+      expect(onFail).toHaveBeenCalledTimes(1)
+      const ev = onFail.mock.calls[0][0] as CustomEvent
+      expect(ev.detail.reason).toBe('no-text')
+    })
+
+    it('should emit COPYFAIL when clipboard write fails', async () => {
+      clipboardWriteText.mockRejectedValueOnce(new Error('nope'))
+
+      fixtureEl.innerHTML = '<button data-bs-toggle="copy" data-bs-copy-text="hello"></button>'
+      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
+
+      const onFail = vi.fn()
+      buttonEl.addEventListener(Copy.Event.COPYFAIL, onFail as any)
+
+      const instance = Copy.getOrCreateInstance(buttonEl)!
+      const ok = await instance.copy()
+
+      expect(ok).toBe(false)
+      expect(onFail).toHaveBeenCalledTimes(1)
+      const ev = onFail.mock.calls[0][0] as CustomEvent
+      expect(ev.detail.reason).toBe('clipboard-failed')
+    })
+
+    it('should reset automatically after timeout when reset=true', async () => {
       vi.useFakeTimers()
+
       fixtureEl.innerHTML = `
-        <button data-bs-clipboard="test text" class="btn-dark">
-          <span>Default</span>
-          <span class="d-none">Success</span>
+        <button data-bs-toggle="copy" data-bs-copy-text="hello">
+          <span data-bs-copy-default>Default</span>
+          <span data-bs-copy-success hidden>Success</span>
         </button>
       `
       const buttonEl = fixtureEl.querySelector('button') as HTMLElement
-      const clipboard = new Clipboard(buttonEl)
-      const defaultChild = buttonEl.children[0] as HTMLElement
-      const successChild = buttonEl.children[1] as HTMLElement
+      const def = buttonEl.querySelector('[data-bs-copy-default]') as HTMLElement
+      const success = buttonEl.querySelector('[data-bs-copy-success]') as HTMLElement
 
-      clipboard.init()
+      const instance = Copy.getOrCreateInstance(buttonEl, { timeout: 1000 })!
+      await instance.copy()
 
-      // Get success handler
-      const successHandler = mockOn.mock.calls.find((call: any[]) => call[0] === 'success')?.[1]
+      expect(buttonEl.classList.contains('is-copied')).toBe(true)
 
-      // Simulate success event
-      const mockEvent = {
-        clearSelection: vi.fn(),
-        trigger: buttonEl,
-      }
-      successHandler(mockEvent)
+      vi.advanceTimersByTime(999)
+      expect(buttonEl.classList.contains('is-copied')).toBe(true)
 
-      expect(defaultChild.classList.contains('d-none')).toBe(true)
-      expect(successChild.classList.contains('d-none')).toBe(false)
-
-      // Fast-forward timeout
-      vi.advanceTimersByTime(2000)
-
-      expect(defaultChild.classList.contains('d-none')).toBe(false)
-      expect(successChild.classList.contains('d-none')).toBe(true)
+      vi.advanceTimersByTime(1)
+      expect(buttonEl.classList.contains('is-copied')).toBe(false)
+      expect(buttonEl.getAttribute('aria-label')).toBeNull()
+      expect(def.hidden).toBe(false)
+      expect(success.hidden).toBe(true)
     })
 
-    it('should reset after timeout', () => {
+    it('should extend timeout without recopy when recopy=false and extend=true', async () => {
       vi.useFakeTimers()
-      fixtureEl.innerHTML = '<button data-bs-clipboard="test text" class="btn-dark"></button>'
+
+      fixtureEl.innerHTML = `
+        <button data-bs-toggle="copy" data-bs-copy-text="hello">
+          <span data-bs-copy-default>Default</span>
+          <span data-bs-copy-success hidden>Success</span>
+        </button>
+      `
       const buttonEl = fixtureEl.querySelector('button') as HTMLElement
-      const clipboard = new Clipboard(buttonEl)
 
-      clipboard.init()
+      const instance = Copy.getOrCreateInstance(buttonEl, { timeout: 1000, recopy: false, extend: true, reset: true })!
 
-      // Get success handler
-      const successHandler = mockOn.mock.calls.find((call: any[]) => call[0] === 'success')?.[1]
+      await instance.copy()
+      expect(clipboardWriteText).toHaveBeenCalledTimes(1)
 
-      // Simulate success event
-      const mockEvent = {
-        clearSelection: vi.fn(),
-        trigger: buttonEl,
-      }
-      successHandler(mockEvent)
+      vi.advanceTimersByTime(500)
+      await instance.copy()
+      expect(clipboardWriteText).toHaveBeenCalledTimes(1)
 
-      expect(buttonEl.classList.contains('btn-success')).toBe(true)
+      // 600ms after the second click: should still be copied (timer extended)
+      vi.advanceTimersByTime(600)
+      expect(buttonEl.classList.contains('is-copied')).toBe(true)
 
-      // Fast-forward timeout
-      vi.advanceTimersByTime(2000)
+      // 401ms more (total 1001ms after second click): should reset
+      vi.advanceTimersByTime(401)
+      expect(buttonEl.classList.contains('is-copied')).toBe(false)
+    })
 
-      expect(buttonEl.classList.contains('btn-success')).toBe(false)
-      expect(buttonEl.classList.contains('btn-dark')).toBe(true)
+    it('should recopy when recopy=true (default)', async () => {
+      fixtureEl.innerHTML = '<button data-bs-toggle="copy" data-bs-copy-text="hello"></button>'
+      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
+      const instance = Copy.getOrCreateInstance(buttonEl, { reset: false })!
+
+      await instance.copy()
+      await instance.copy()
+
+      expect(clipboardWriteText).toHaveBeenCalledTimes(2)
+    })
+
+    it('should not extend timeout when extend=false and timer is already running', async () => {
+      vi.useFakeTimers()
+
+      fixtureEl.innerHTML = `
+        <button data-bs-toggle="copy" data-bs-copy-text="hello">
+          <span data-bs-copy-default>Default</span>
+          <span data-bs-copy-success hidden>Success</span>
+        </button>
+      `
+      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
+
+      const instance = Copy.getOrCreateInstance(buttonEl, { timeout: 1000, recopy: false, extend: false, reset: true })!
+
+      await instance.copy()
+      vi.advanceTimersByTime(500)
+      await instance.copy() // should NOT extend existing timer
+
+      vi.advanceTimersByTime(501) // total 1001ms from first copy
+      expect(buttonEl.classList.contains('is-copied')).toBe(false)
     })
   })
 
-  describe('error event handling', () => {
-    it('should handle error event', () => {
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-      fixtureEl.innerHTML = '<button data-bs-clipboard="test text"></button>'
+  describe('reset()', () => {
+    it('should manually reset and emit RESET with manual=true', async () => {
+      fixtureEl.innerHTML = '<button data-bs-toggle="copy" data-bs-copy-text="hello"></button>'
       const buttonEl = fixtureEl.querySelector('button') as HTMLElement
-      const clipboard = new Clipboard(buttonEl)
 
-      clipboard.init()
+      const onReset = vi.fn()
+      buttonEl.addEventListener(Copy.Event.RESET, onReset as any)
 
-      // Get error handler
-      const errorHandler = mockOn.mock.calls.find((call: any[]) => call[0] === 'error')?.[1]
-      expect(errorHandler).toBeDefined()
+      const instance = Copy.getOrCreateInstance(buttonEl, { reset: false })!
+      await instance.copy()
 
-      // Simulate error event
-      const mockEvent = {
-        error: 'Test error',
-      }
-      errorHandler(mockEvent)
+      expect(buttonEl.classList.contains('is-copied')).toBe(true)
 
-      expect(consoleSpy).toHaveBeenCalledWith('Error copying text: ', mockEvent)
+      instance.reset()
+      expect(buttonEl.classList.contains('is-copied')).toBe(false)
+      expect(onReset).toHaveBeenCalledTimes(1)
+      const ev = onReset.mock.calls[0][0] as CustomEvent
+      expect(ev.detail.manual).toBe(true)
+    })
+  })
 
-      consoleSpy.mockRestore()
+  describe('Data API', () => {
+    it('should copy on click via document listener', async () => {
+      fixtureEl.innerHTML = `
+        <button data-bs-toggle="copy" data-bs-copy-text="hello">
+          <span data-bs-copy-default>Default</span>
+        </button>
+      `
+      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
+      const span = buttonEl.querySelector('span') as HTMLElement
+
+      span.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+
+      // allow async copy() chain to complete (Data API doesn't await)
+      await new Promise((resolve) => setTimeout(resolve, 0))
+
+      expect(clipboardWriteText).toHaveBeenCalledWith('hello')
+      expect(buttonEl.classList.contains('is-copied')).toBe(true)
+    })
+  })
+
+  describe('feedback: tooltip', () => {
+    it('should show/hide bootstrap tooltip when available', async () => {
+      vi.useFakeTimers()
+
+      const show = vi.fn()
+      const hide = vi.fn()
+      const dispose = vi.fn()
+      const getOrCreateInstance = vi.spyOn(Tooltip, 'getOrCreateInstance').mockReturnValue({ show, hide, dispose } as any)
+
+      fixtureEl.innerHTML = '<button data-bs-toggle="copy" data-bs-copy-text="hello"></button>'
+      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
+
+      const instance = Copy.getOrCreateInstance(buttonEl, {
+        feedback: 'tooltip',
+        tooltip: 'Copied!',
+        tooltipPlacement: 'top',
+        timeout: 500,
+        reset: true,
+      })!
+
+      await instance.copy()
+      expect(getOrCreateInstance).toHaveBeenCalledTimes(1)
+      expect(show).toHaveBeenCalledTimes(1)
+
+      vi.advanceTimersByTime(500)
+      expect(hide).toHaveBeenCalledTimes(1)
+
+      instance.dispose()
+      expect(dispose).toHaveBeenCalledTimes(1)
+      getOrCreateInstance.mockRestore()
+    })
+
+    it('should not swap when tooltip mode is enabled', async () => {
+      fixtureEl.innerHTML = `
+        <button data-bs-toggle="copy" data-bs-copy-text="hello">
+          <span data-bs-copy-default>Default</span>
+          <span data-bs-copy-success hidden>Success</span>
+        </button>
+      `
+      const buttonEl = fixtureEl.querySelector('button') as HTMLElement
+
+      const show = vi.fn()
+      const hide = vi.fn()
+      const dispose = vi.fn()
+      const getOrCreateInstance = vi.spyOn(Tooltip, 'getOrCreateInstance').mockReturnValue({ show, hide, dispose } as any)
+
+      const instance = Copy.getOrCreateInstance(buttonEl, { feedback: 'tooltip', reset: false })!
+      await instance.copy()
+
+      // tooltip mode uses Tooltip feedback and does not rely on swap markup
+      expect(show).toHaveBeenCalledTimes(1)
+      expect(buttonEl.classList.contains('is-copied')).toBe(false)
+
+      instance.dispose()
+      getOrCreateInstance.mockRestore()
     })
   })
 
   describe('static properties', () => {
     it('should have correct NAME', () => {
-      expect(Clipboard.NAME).toBe('clipboard')
+      expect(Copy.NAME).toBe('copy')
     })
 
     it('should have correct DATA_KEY', () => {
-      expect(Clipboard.DATA_KEY).toBe('tblr.clipboard')
+      expect(Copy.DATA_KEY).toBe('bs.copy')
     })
   })
 })
