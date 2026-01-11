@@ -1,6 +1,51 @@
+---
+alwaysApply: false
+---
+
 ## SCSS Cascade Layers Guidelines
 
 Use CSS Cascade Layers (`@layer`) to make the cascade predictable across modules (reboot/layout/forms/components/helpers/utilities), without relying on import order or widespread `!important`.
+
+### 0. Inventory: SCSS entrypoints → CSS bundles → consumers
+
+This repo produces multiple CSS bundles from multiple SCSS entrypoints. Before moving rules into layers, keep this mapping handy so you can reason about bundle-level ordering and who consumes what.
+
+#### `@tabler/core` (published bundles)
+
+- **Build tool**: Sass CLI (not Vite) compiles `core/scss/` → `core/dist/css/` via `sass scss/:dist/css/`
+- **Entrypoints (non-partials)**:
+  - `core/scss/tabler.scss` → `core/dist/css/tabler.css` (+ `tabler.min.css`, `tabler.rtl.css`, `tabler.rtl.min.css`)
+    - **Consumers**:
+      - `shared/includes/layout/css.html` (preview pages, mandatory styles)
+      - `shared/layouts/docs/default.html` (docs site)
+      - `core/package.json` exposes it via `style: dist/css/tabler.css` and `sass: scss/tabler.scss`
+  - `core/scss/tabler-flags.scss` → `core/dist/css/tabler-flags.css` (+ `.min`, `.rtl`, `.rtl.min`)
+  - `core/scss/tabler-socials.scss` → `core/dist/css/tabler-socials.css` (+ `.min`, `.rtl`, `.rtl.min`)
+  - `core/scss/tabler-payments.scss` → `core/dist/css/tabler-payments.css` (+ `.min`, `.rtl`, `.rtl.min`)
+  - `core/scss/tabler-vendors.scss` → `core/dist/css/tabler-vendors.css` (+ `.min`, `.rtl`, `.rtl.min`)
+  - `core/scss/tabler-marketing.scss` → `core/dist/css/tabler-marketing.css` (+ `.min`, `.rtl`, `.rtl.min`)
+  - `core/scss/tabler-themes.scss` → `core/dist/css/tabler-themes.css` (+ `.min`, `.rtl`, `.rtl.min`)
+  - `core/scss/tabler-props.scss` → `core/dist/css/tabler-props.css` (+ `.min`, `.rtl`, `.rtl.min`)
+    - **Note**: currently not included by default layouts (it exists as a separate bundle and is covered by SRI generation).
+- **Plugin consumers**:
+  - Preview pages: `shared/includes/layout/css.html` loads `tabler-{{ plugin }}` for each plugin in `shared/data/site.json` (`cssPlugins`).
+  - Docs site: `shared/layouts/docs/default.html` loads the same plugin list.
+- **Copying into static sites**:
+  - `preview/eleventy.config.mjs` and `docs/eleventy.config.mjs` both `addPassthroughCopy({ "node_modules/@tabler/core/dist": "dist" })`, so core bundles are available at `/dist/css/...` in those sites.
+
+#### `@tabler/preview` (preview-only bundle)
+
+- **Build tool**: Sass CLI compiles `preview/scss/` → `preview/dist/preview/css/` via `sass scss/:dist/preview/css/`
+- **Entrypoints**:
+  - `preview/scss/demo.scss` → `preview/dist/preview/css/demo.css` (+ `.min`)
+    - **Consumer**: `shared/includes/layout/css.html` loads it as `/preview/css/demo...`
+
+#### `@tabler/docs` (docs-only bundle)
+
+- **Build tool**: Sass CLI compiles `docs/scss/` → `docs/dist/css/` via `sass scss/:dist/css/`
+- **Entrypoints**:
+  - `docs/scss/docs.scss` → `docs/dist/css/docs.css` (+ `.min`)
+    - **Consumer**: `shared/layouts/docs/default.html` loads it as `/css/docs...`
 
 ### 1. Canonical layer order (single source of truth)
 

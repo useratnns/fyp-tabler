@@ -1,6 +1,7 @@
 $markdown-font-size: var(--#{$prefix}font-size-h3) !default;
 $markdown-line-height: var(--#{$prefix}line-height-lg) !default;
 
+@layer components {
 /**
 Markdown
  */
@@ -63,4 +64,6 @@ Markdown
   pre {
     max-height: 20rem;
   }
+}
+
 }
