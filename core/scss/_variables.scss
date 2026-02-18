@@ -1003,7 +1003,7 @@ $box-shadow: $box-shadow-md !default;
 $box-shadow-transparent: 0 0 0 0 transparent !default;
 $box-shadow-border: 0px 0px 0px 1px rgba(18, 18, 23, 0.10) !default;
 $box-shadow-input: $box-shadow-xs !default;
-$box-shadow-card: $box-shadow-sm !default;
+$box-shadow-card: $box-shadow-xs !default;
 $box-shadow-card-hover: $box-shadow-lg !default;
 $box-shadow-dropdown: $box-shadow-overlay !default;
 
@@ -1486,7 +1486,8 @@ $nav-link-disabled-color: var(--#{$prefix}disabled-color) !default;
 $nav-link-focus-box-shadow: $focus-ring-box-shadow !default;
 $nav-link-height: $font-size-base * $line-height-base + $nav-link-padding-y * 2 !default;
 $nav-link-icon-size: $icon-size !default;
-$nav-link-icon-color: inherit !default;
+$nav-link-icon-color: color-transparent(var(--#{$prefix}nav-link-color), 0.5) !default;
+$nav-link-hover-icon-color: color-transparent(var(--#{$prefix}nav-link-color), 0.8) !default;
 
 $nav-pills-border-radius: var(--#{$prefix}border-radius) !default;
 $nav-pills-link-active-color: var(--#{$prefix}primary) !default;
@@ -1563,7 +1564,7 @@ $navbar-toggler-transition: box-shadow 0.15s ease-in-out !default;
 $navbar-toggler-animation-time: 0.2s !default;
 $navbar-overlap-height: 9rem !default;
 
-$navbar-nav-link-hover-bg: rgba(0, 0, 0, 0.04) !default;
+$navbar-nav-link-hover-bg: color-transparent(var(--#{$prefix}nav-link-color), 0.04) !default;
 
 $navbar-active-border-color: var(--#{$prefix}primary) !default;
 

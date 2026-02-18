@@ -275,7 +275,9 @@ Navbar transparent
 Navbar nav
  */
 .navbar-nav {
-  --#{$prefix}nav-link-hover-bg: #{color-transparent(var(--#{$prefix}nav-link-color), 0.04)};
+  --#{$prefix}nav-link-hover-bg: #{$navbar-nav-link-hover-bg};
+  --#{$prefix}nav-link-icon-color: #{$nav-link-icon-color};
+  --#{$prefix}nav-link-hover-icon-color: #{$nav-link-hover-icon-color};
   margin: 0;
   padding: 0;
   align-items: stretch;

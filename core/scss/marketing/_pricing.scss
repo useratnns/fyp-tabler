@@ -20,7 +20,7 @@ $pricing-card-width: 22rem;
   padding: 2rem;
   margin: 0 0 1rem;
   position: relative;
-  box-shadow: $box-shadow-card;
+  box-shadow: var(--#{$prefix}shadow-card);
   text-align: center;
   @include border-radius($border-radius-lg);
 
@@ -46,7 +46,7 @@ $pricing-card-width: 22rem;
       order: unset;
       margin-top: 0;
       margin-bottom: 0;
-      box-shadow: $box-shadow-card;
+      box-shadow: var(--#{$prefix}shadow-card);
       @include border-radius($border-radius-lg);
     }
   }

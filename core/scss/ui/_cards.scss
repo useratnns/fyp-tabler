@@ -29,7 +29,7 @@
 
     &:hover {
       text-decoration: none;
-      box-shadow: $box-shadow-card-hover;
+      box-shadow: var(--#{$prefix}shadow-card-hover);
     }
   }
 
