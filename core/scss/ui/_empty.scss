@@ -46,15 +46,14 @@
 
 .empty-title,
 .empty-subtitle {
-  margin: 0 0 .5rem;
+  margin: 0 0 0.5rem;
 }
 
 .empty-action {
   margin-top: 1.5rem;
 }
 
-
 .empty-bordered {
   border: var(--#{$prefix}border-width) var(--#{$prefix}border-style) var(--#{$prefix}border-color);
-  border-radius: var(--#{$prefix}border-radius);
+  @include border-radius(var(--#{$prefix}border-radius));
 }

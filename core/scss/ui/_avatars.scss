@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 .avatar {
   --#{$prefix}avatar-size: var(--#{$prefix}avatar-list-size, #{$avatar-size});
   --#{$prefix}avatar-status-size: #{$avatar-status-size};
@@ -7,6 +9,7 @@
   --#{$prefix}avatar-font-size: #{$avatar-font-size};
   --#{$prefix}avatar-icon-size: #{$avatar-icon-size};
   --#{$prefix}avatar-brand-size: #{$avatar-brand-size};
+  --#{$prefix}avatar-border-radius: #{$avatar-border-radius};
   position: relative;
   width: var(--#{$prefix}avatar-size);
   height: var(--#{$prefix}avatar-size);
@@ -22,9 +25,12 @@
   vertical-align: bottom;
   user-select: none;
   background: var(--#{$prefix}avatar-bg) no-repeat center/cover;
-  border-radius: $avatar-border-radius;
+  @include border-radius(var(--#{$prefix}avatar-border-radius));
   box-shadow: var(--#{$prefix}avatar-box-shadow);
-  transition: color $transition-time, background-color $transition-time, box-shadow $transition-time;
+  transition:
+    color $transition-time,
+    background-color $transition-time,
+    box-shadow $transition-time;
 
   .icon {
     width: var(--#{$prefix}avatar-icon-size);
@@ -33,15 +39,15 @@
 
   .badge {
     position: absolute;
-    right: 0;
+    inset-inline-end: 0;
     bottom: 0;
-    border-radius: $border-radius-pill;
+    @include border-radius(var(--#{$prefix}border-radius-pill));
     box-shadow: 0 0 0 calc(var(--#{$prefix}avatar-status-size) / 4) $card-bg;
   }
 
   @at-root a#{&} {
     cursor: pointer;
-    
+
     &:hover {
       color: var(--#{$prefix}primary);
       --#{$prefix}avatar-box-shadow-color: var(--#{$prefix}primary);
@@ -50,20 +56,28 @@
 }
 
 .avatar-rounded {
-  border-radius: $border-radius-pill;
+  @include border-radius(var(--#{$prefix}border-radius-pill));
+}
+
+.avatar-square {
+  @include border-radius(var(--#{$prefix}border-radius));
 }
 
 @each $avatar-size, $size in $avatar-sizes {
   .avatar-#{$avatar-size} {
-    --#{$prefix}avatar-size: #{map-get($size, size)};
-    --#{$prefix}avatar-status-size: #{map-get($size, status-size)};
-    --#{$prefix}avatar-font-size: #{map-get($size, font-size)};
-    --#{$prefix}avatar-icon-size: #{map-get($size, icon-size)};
-    --#{$prefix}avatar-brand-size: #{map-get($size, brand-size)};
+    --#{$prefix}avatar-size: #{map.get($size, size)};
+    --#{$prefix}avatar-status-size: #{map.get($size, status-size)};
+    --#{$prefix}avatar-font-size: #{map.get($size, font-size)};
+    --#{$prefix}avatar-icon-size: #{map.get($size, icon-size)};
+    --#{$prefix}avatar-brand-size: #{map.get($size, brand-size)};
 
     .badge:empty {
-      width: map-get($size, status-size);
-      height: map-get($size, status-size);
+      width: map.get($size, status-size);
+      height: map.get($size, status-size);
+    }
+
+    &.avatar-square {
+      @include border-radius(map.get($size, border-radius));
     }
   }
 }
@@ -87,14 +101,19 @@
   --#{$prefix}list-gap: 0;
 
   .avatar {
-    margin-right: calc(#{$avatar-list-spacing} * var(--#{$prefix}avatar-size)) !important;
-    box-shadow: var(--#{$prefix}avatar-box-shadow), 0 0 0 2px var(--#{$prefix}card-bg, var(--#{$prefix}bg-surface));
+    box-shadow:
+      var(--#{$prefix}avatar-box-shadow),
+      0 0 0 2px var(--#{$prefix}card-bg, var(--#{$prefix}bg-surface));
+
+    &:not(:first-child) {
+      margin-inline-start: calc(#{$avatar-list-spacing} * var(--#{$prefix}avatar-size)) !important;
+    }
   }
 }
 
 @each $avatar-size, $size in $avatar-sizes {
   .avatar-list-#{$avatar-size} {
-    --#{$prefix}avatar-list-size: #{map-get($size, size)};
+    --#{$prefix}avatar-list-size: #{map.get($size, size)};
   }
 }
 
@@ -124,22 +143,22 @@
 .avatar-upload-text {
   font-size: $h6-font-size;
   line-height: 1;
-  margin-top: .25rem;
+  margin-top: 0.25rem;
 }
 
 .avatar-cover {
-  margin-top: calc(-.5 * var(--#{$prefix}avatar-size));
-  box-shadow: 0 0 0 .25rem var(--#{$prefix}card-bg, var(--#{$prefix}body-bg));
+  margin-top: calc(-0.5 * var(--#{$prefix}avatar-size));
+  box-shadow: 0 0 0 0.25rem var(--#{$prefix}card-bg, var(--#{$prefix}body-bg));
 }
 
 .avatar-brand {
   width: var(--#{$prefix}avatar-brand-size);
   height: var(--#{$prefix}avatar-brand-size);
   position: absolute;
-  right: -2px;
+  inset-inline-end: -2px;
   bottom: -2px;
   z-index: 1000;
   background: var(--#{$prefix}bg-surface);
-  border-radius: var(--#{$prefix}border-radius);
+  @include border-radius(var(--#{$prefix}border-radius));
   border: 1px solid var(--#{$prefix}border-color);
 }

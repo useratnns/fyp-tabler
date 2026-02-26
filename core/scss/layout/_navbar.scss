@@ -1,20 +1,22 @@
+@use 'sass:map';
+
 @mixin navbar-vertical-nav {
   .navbar-collapse {
     flex-direction: column;
 
-    [class^="container"] {
+    [class^='container'] {
       flex-direction: column;
       align-items: stretch;
       padding: 0;
     }
 
     .navbar-nav {
-      margin-left: 0;
-      margin-right: 0;
+      margin-inline-start: 0;
+      margin-inline-end: 0;
 
       .nav-link {
         padding: 0.5rem calc(#{$container-padding-x} / 2);
-        justify-content: flex-start;
+        justify-content: start;
       }
     }
 
@@ -36,7 +38,7 @@
         min-width: 0;
         display: flex;
         width: auto;
-        padding-left: add(calc(#{$container-padding-x} / 2), 1.75rem);
+        padding-inline-start: add(calc(#{$container-padding-x} / 2), 1.75rem);
         color: inherit;
 
         &.disabled {
@@ -52,22 +54,22 @@
       }
 
       .dropdown-menu .dropdown-item {
-        padding-left: add(calc(#{$container-padding-x} / 2), 3.25rem);
+        padding-inline-start: add(calc(#{$container-padding-x} / 2), 3.25rem);
       }
 
       .dropdown-menu .dropdown-menu .dropdown-item {
-        padding-left: add(calc(#{$container-padding-x} / 2), 4.75rem);
+        padding-inline-start: add(calc(#{$container-padding-x} / 2), 4.75rem);
       }
     }
 
     .dropdown-toggle:after {
-      margin-left: auto;
+      margin-inline-start: auto;
     }
 
     .nav-item.active:after {
       border-bottom-width: 0;
-      border-left-width: 3px;
-      right: auto;
+      border-inline-start-width: 3px;
+      inset-inline-end: auto;
       top: 0;
       bottom: 0;
     }
@@ -111,12 +113,12 @@ Navbar
       min-width: 2.5rem;
       min-height: 2.5rem;
       justify-content: center;
-      border-radius: var(--#{$prefix}border-radius);
+      @include border-radius(var(--#{$prefix}border-radius));
 
       .badge {
         position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
+        top: 0.5rem;
+        inset-inline-end: 0.5rem;
         transform: translate(50%, -50%);
       }
     }
@@ -124,7 +126,7 @@ Navbar
 }
 
 .navbar-expand {
-  @each $breakpoint in map-keys($grid-breakpoints) {
+  @each $breakpoint in map.keys($grid-breakpoints) {
     $next: breakpoint-next($breakpoint, $grid-breakpoints);
     $infix: breakpoint-infix($next, $grid-breakpoints);
 
@@ -147,10 +149,10 @@ Navbar
           }
 
           &:after {
-            content: "";
+            content: '';
             position: absolute;
-            left: 0;
-            right: 0;
+            inset-inline-start: 0;
+            inset-inline-end: 0;
             bottom: -0.25rem;
             border: 0 var(--#{$prefix}border-style) var(--#{$prefix}navbar-active-border-color);
             border-bottom-width: 2px;
@@ -169,7 +171,7 @@ Navbar
         &.navbar-vertical {
           ~ .navbar,
           ~ .page-wrapper {
-            margin-left: $sidebar-width;
+            margin-inline-start: $sidebar-width;
           }
         }
 
@@ -177,8 +179,8 @@ Navbar
         &.navbar-vertical.navbar-end {
           ~ .navbar,
           ~ .page-wrapper {
-            margin-left: 0;
-            margin-right: $sidebar-width;
+            margin-inline-start: 0;
+            margin-inline-end: $sidebar-width;
           }
         }
       }
@@ -220,25 +222,20 @@ Navbar toggler
   height: 2px;
   width: 1.25em;
   background: currentColor;
-  border-radius: 10px;
-  @include transition(
-    top $navbar-toggler-animation-time $navbar-toggler-animation-time,
-    bottom $navbar-toggler-animation-time $navbar-toggler-animation-time,
-    transform $navbar-toggler-animation-time,
-    opacity 0s $navbar-toggler-animation-time
-  );
+  @include border-radius(var(--#{$prefix}border-radius-pill));
   position: relative;
+  @include transition(top $navbar-toggler-animation-time $navbar-toggler-animation-time, bottom $navbar-toggler-animation-time $navbar-toggler-animation-time, transform $navbar-toggler-animation-time, opacity 0s $navbar-toggler-animation-time);
 
   &:before,
   &:after {
-    content: "";
+    content: '';
     display: block;
     height: inherit;
     width: inherit;
     border-radius: inherit;
     background: inherit;
     position: absolute;
-    left: 0;
+    inset-inline-start: 0;
     @include transition(inherit);
   }
 
@@ -250,7 +247,7 @@ Navbar toggler
     bottom: -0.45em;
   }
 
-  .navbar-toggler[aria-expanded="true"] & {
+  .navbar-toggler[aria-expanded='true'] & {
     transform: rotate(45deg);
     @include transition(top $transition-time, bottom $transition-time, transform $transition-time $transition-time, opacity 0s $transition-time);
 
@@ -278,7 +275,9 @@ Navbar transparent
 Navbar nav
  */
 .navbar-nav {
-  --#{$prefix}nav-link-hover-bg: #{color-transparent(var(--#{$prefix}nav-link-color), 0.04)};
+  --#{$prefix}nav-link-hover-bg: #{$navbar-nav-link-hover-bg};
+  --#{$prefix}nav-link-icon-color: #{$nav-link-icon-color};
+  --#{$prefix}nav-link-hover-icon-color: #{$nav-link-hover-icon-color};
   margin: 0;
   padding: 0;
   align-items: stretch;
@@ -307,7 +306,7 @@ Navbar vertical
 @if $enable-navbar-vertical {
   .navbar-vertical {
     &.navbar-expand {
-      @each $breakpoint in map-keys($grid-breakpoints) {
+      @each $breakpoint in map.keys($grid-breakpoints) {
         $next: breakpoint-next($breakpoint, $grid-breakpoints);
         $infix: breakpoint-infix($next, $grid-breakpoints);
 
@@ -316,18 +315,18 @@ Navbar vertical
             width: $sidebar-width;
             position: fixed;
             top: 0;
-            left: 0;
+            inset-inline-start: 0;
             bottom: 0;
             z-index: $zindex-fixed;
-            align-items: flex-start;
-            @include transition(transform $transition-time);
+            align-items: start;
             overflow-y: scroll;
             padding: 0;
+            @include transition(transform $transition-time);
 
             &.navbar-right,
             &.navbar-end {
-              left: auto;
-              right: 0;
+              inset-inline-start: auto;
+              inset-inline-end: 0;
             }
 
             .navbar-brand {
@@ -350,27 +349,27 @@ Navbar vertical
               }
             }
 
-            > [class^="container"] {
+            > [class^='container'] {
               flex-direction: column;
               align-items: stretch;
               min-height: 100%;
-              justify-content: flex-start;
+              justify-content: start;
               padding: 0;
             }
 
             ~ .page {
-              padding-left: $sidebar-width;
+              padding-inline-start: $sidebar-width;
 
-              [class^="container"] {
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
+              [class^='container'] {
+                padding-inline-start: 1.5rem;
+                padding-inline-end: 1.5rem;
               }
             }
 
             &.navbar-right ~ .page,
             &.navbar-end ~ .page {
-              padding-left: 0;
-              padding-right: $sidebar-width;
+              padding-inline-start: 0;
+              padding-inline-end: $sidebar-width;
             }
 
             @include navbar-vertical-nav;
@@ -383,12 +382,12 @@ Navbar vertical
 
 .navbar-overlap {
   &:after {
-    content: "";
+    content: '';
     height: $navbar-overlap-height;
     position: absolute;
     top: 100%;
-    left: 0;
-    right: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     background: inherit;
     z-index: -1;
     box-shadow: inherit;

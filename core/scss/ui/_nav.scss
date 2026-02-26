@@ -10,14 +10,14 @@
   }
 
   .nav {
-    margin-left: 1.25rem;
-    border-left: var(--#{$prefix}border-width) var(--#{$prefix}border-style) var(--#{$prefix}border-color);
-    padding-left: .5rem;
+    margin-inline-start: 1.25rem;
+    border-inline-start: var(--#{$prefix}border-width) var(--#{$prefix}border-style) var(--#{$prefix}border-color);
+    padding-inline-start: 0.5rem;
   }
 
   .nav-link.active,
   .nav-item.show .nav-link {
-    font-weight: var(--#{$prefix}font-weight-bold);
+    font-weight: var(--#{$prefix}font-weight-semibold);
     color: var(--#{$prefix}nav-link-active-color);
   }
 
@@ -34,13 +34,13 @@
 
   .nav-item {
     + .nav-item {
-      margin-left: $nav-bordered-margin-x;
+      margin-inline-start: $nav-bordered-margin-x;
     }
   }
 
   .nav-link {
-    padding-left: 0;
-    padding-right: 0;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
     margin: 0 0 calc(-1 * #{$nav-bordered-border-width});
     border: 0;
     border-bottom: $nav-bordered-link-active-border-width var(--#{$prefix}border-style) transparent;
@@ -65,8 +65,8 @@
 
 .nav-link {
   display: flex;
-  @include transition(color $transition-time, background-color $transition-time);
   align-items: center;
+  @include transition(color $transition-time, background-color $transition-time);
 
   &:hover,
   &:focus {
@@ -75,8 +75,8 @@
 }
 
 .nav-link-toggle {
-  margin-left: auto;
-  padding: 0 .25rem;
+  margin-inline-start: auto;
+  padding: 0 0.25rem;
   @include transition(transform $transition-time);
   @include caret();
 
@@ -84,7 +84,7 @@
     margin: 0;
   }
 
-  @at-root .nav-link[aria-expanded="true"] & {
+  @at-root .nav-link[aria-expanded='true'] & {
     transform: rotate(180deg);
   }
 }
@@ -92,12 +92,16 @@
 .nav-link-icon {
   width: $nav-link-icon-size;
   height: $nav-link-icon-size;
-  margin-right: .5rem;
+  margin-inline-end: 0.5rem;
   color: $nav-link-icon-color;
 
   svg {
     display: block;
     height: 100%;
+  }
+
+  .nav-link:hover & {
+    color: var(--#{$prefix}nav-link-hover-icon-color);
   }
 }
 

@@ -2,16 +2,11 @@
 :host {
   font-size: 16px;
   height: 100%;
-
-  @include media-breakpoint-up(lg) {
-    margin-left: calc(100vw - 100%);
-    margin-right: 0;
-  }
 }
 
 :root,
 :host,
-[data-bs-theme="light"] {
+[data-bs-theme='light'] {
   color-scheme: light;
   --#{$prefix}spacer: var(--#{$prefix}spacer-2);
 
@@ -38,7 +33,10 @@
   --#{$prefix}border-color-translucent: #{$border-color-translucent};
   --#{$prefix}border-dark-color: #{$border-dark-color};
   --#{$prefix}border-dark-color-translucent: #{$border-dark-color-translucent};
+  --#{$prefix}border-light-color: #{$border-light-color};
+  --#{$prefix}border-light-color-translucent: #{$border-light-color-translucent};
   --#{$prefix}border-active-color: #{$border-active-color};
+  --#{$prefix}border-active-color-translucent: #{$border-active-color-translucent};
 
   --#{$prefix}icon-color: #{$icon-color};
 

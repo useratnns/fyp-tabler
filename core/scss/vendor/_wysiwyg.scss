@@ -1,11 +1,11 @@
 .tox-hugerte {
   border: var(--#{$prefix}border-width) var(--#{$prefix}border-style) var(--#{$prefix}border-color) !important;
-  border-radius: $border-radius !important;
+  @include border-radius($border-radius);
   font-family: var(--#{$prefix}font-sans-serif) !important;
 }
 
 .tox-toolbar__group {
-  padding: 0 .5rem 0;
+  padding: 0 0.5rem 0;
 }
 
 .tox .tox-toolbar__primary {
@@ -32,7 +32,7 @@
 
 .tox-edit-area {
   &::before {
-    border: none !important
+    border: none !important;
   }
 }
 

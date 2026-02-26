@@ -1,4 +1,6 @@
 .table {
+  font: inherit;
+
   thead {
     th {
       background: $table-th-bg;
@@ -7,7 +9,7 @@
       padding-bottom: $table-th-padding-y;
       white-space: nowrap;
 
-      @media print {
+      @include media-print {
         background: transparent;
       }
     }
@@ -111,10 +113,9 @@ Table sort
   display: block;
   width: 100%;
   text-align: inherit;
-  @include transition(color $transition-time);
-
   margin: calc(-1 * $table-th-padding-y) calc(-1 * $table-th-padding-x);
   padding: $table-th-padding-y $table-th-padding-x;
+  @include transition(color $transition-time);
 
   &:hover,
   &.asc,
@@ -123,14 +124,14 @@ Table sort
   }
 
   &:after {
-    content: "";
+    content: '';
     display: inline-flex;
     width: 1rem;
     height: 1rem;
     vertical-align: bottom;
     mask-image: $table-sort-bg-image;
     background: currentColor;
-    margin-left: .25rem;
+    margin-inline-start: 0.25rem;
   }
 
   &.asc:after {

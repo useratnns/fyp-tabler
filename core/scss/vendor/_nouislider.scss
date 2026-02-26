@@ -2,18 +2,18 @@
   border: 0;
   box-shadow: none;
   background: none;
-  border-radius: 0;
+  @include border-radius(0);
   color: $form-range-thumb-bg;
 }
 
 .noUi-horizontal {
   height: add($form-range-track-height, 1rem);
-  padding: .5rem 0;
+  padding: 0.5rem 0;
 }
 
 .noUi-base {
   background: $form-range-track-bg;
-  border-radius: $form-range-track-border-radius;
+  @include border-radius($form-range-track-border-radius);
 }
 
 .noUi-handle {
@@ -21,7 +21,7 @@
   height: $form-range-thumb-height;
   border: $form-range-thumb-border;
   box-shadow: $form-range-thumb-box-shadow;
-  border-radius: $form-range-thumb-border-radius;
+  @include border-radius($form-range-thumb-border-radius);
   background: currentColor;
   outline: 0;
 
@@ -33,8 +33,8 @@
   .noUi-horizontal & {
     width: $form-range-thumb-width;
     height: $form-range-thumb-height;
-    top: calc($form-range-thumb-height * -.5);
-    right: calc($form-range-thumb-height * -.5);
+    top: calc($form-range-thumb-height * -0.5);
+    inset-inline-end: calc($form-range-thumb-height * -0.5);
     margin: 1px 1px 0 0;
   }
 

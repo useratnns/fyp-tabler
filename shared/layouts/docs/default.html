@@ -64,13 +64,12 @@
 		rel="stylesheet" />
 	{% endfor %}
 
-
 	{% if docs-libs -%}
-	{% for lib in libs.css -%}
+	{% for lib in libs -%}
 	{% if docs-libs contains lib[0] -%}
-	{% for file in lib[1] -%}
+	{% for file in lib[1].css -%}
 	<link
-		href="{% if file contains 'http://' or file contains 'https://' %}{{ file }}{% else %}{{ page | relative }}/libs/{% if environment != 'development' %}{{ file | replace: '@', '' }}{% else %}{{ file }}{% endif %}{% if environment != 'development' %}?{{ 'now' | date: '%s' }}{% endif %}{% endif %}"
+		href="{% if file contains 'http://' or file contains 'https://' %}{{ file }}{% else %}/dist/libs/{{ lib[1].npm }}/{% if environment != 'development' %}{{ file | replace: '@', '' }}{% else %}{{ file }}{% endif %}{% if environment != 'development' %}?{{ 'now' | date: '%s' }}{% endif %}{% endif %}"
 		rel="stylesheet" />
 	{% endfor -%}
 	{% endif -%}
@@ -83,8 +82,13 @@
 
 <body class="d-flex flex-column" style="background: var(--tblr-bg-surface)">
 	<script src="/dist/js/tabler-theme{% if environment != 'development' %}.min{% endif %}.js"></script>
+	<!-- BEGIN NAVBAR  -->
+	<header role="banner">
 	{% include "docs/navbar.html" %}
-	<div class="flex-fill">
+	</header>
+	<!-- END NAVBAR  -->
+	<!-- BEGIN PAGE BODY -->
+	<main id="content" class="flex-fill">
 		<div class="container">
 			<div class="row g-0">
 				<div class="col-docs d-none d-lg-block border-end">
@@ -107,10 +111,20 @@
 				<div class="col bg-docs-gradient">
 					<div class="py-lg-5 ps-lg-5">
 						<div class="py-6 ps-lg-6 p-xxl-6">
-							<div class="markdown" data-bs-spy="scroll" data-bs-target="#toc" data-bs-root-margin="50px 0px -0%" data-bs-smooth-scroll="true" tabindex="0">
-								<h1>
-									{{ title }}
-								</h1>
+							<div class="prose" data-bs-spy="scroll" data-bs-target="#toc" data-bs-root-margin="50px 0px -0%" data-bs-smooth-scroll="true" tabindex="0">
+								<div class="d-flex">
+									<h1>
+										{{ title }}
+									</h1>
+
+									{% if added-in %}
+									{% assign added-in-label = "Added in " | append: added-in %}
+									<div class="ms-auto">
+										{% include "ui/badge.html" color="primary" light=true text=added-in-label %}
+									</div>
+									{% endif %}
+								</div>
+								
 
 								<p class="text-secondary fs-3 lh-3">{{ summary }}</p>
 
@@ -156,7 +170,8 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</main>
+	<!-- END PAGE BODY -->
 
 	{% for lib in libs -%}
 	{% if docs-libs contains lib[0] or libs.global-libs contains lib[0] or lib[0] == "clipboard" -%}

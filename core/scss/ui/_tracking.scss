@@ -13,7 +13,7 @@
     height: auto;
 
     &:before {
-      content: "";
+      content: '';
       display: block;
       padding-top: 100%;
     }
@@ -22,8 +22,8 @@
 
 .tracking-block {
   flex: 1;
-  border-radius: var(--#{$prefix}tracking-block-border-radius);
+  @include border-radius(var(--#{$prefix}tracking-block-border-radius));
   height: var(--#{$prefix}tracking-height);
-  min-width: .25rem;
+  min-width: 0.25rem;
   background: var(--#{$prefix}border-color);
 }
