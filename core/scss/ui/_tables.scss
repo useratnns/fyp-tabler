@@ -19,7 +19,7 @@
     margin-bottom: 0;
   }
 
-  + .card-footer {
+  +.card-footer {
     border-top: 0;
   }
 }
@@ -33,19 +33,19 @@
 }
 
 .table-nowrap {
-  > :not(caption) > * > * {
+  > :not(caption)>*>* {
     white-space: nowrap;
   }
 }
 
 .table-vcenter {
-  > :not(caption) > * > * {
+  > :not(caption)>*>* {
     vertical-align: middle;
   }
 }
 
 .table-center {
-  > :not(caption) > * > * {
+  > :not(caption)>*>* {
     text-align: center;
   }
 }
@@ -87,8 +87,7 @@
         }
 
         tr {
-          border-bottom: var(--#{$prefix}border-width)
-            var(--#{$prefix}border-style) $table-border-color;
+          border-bottom: var(--#{$prefix}border-width) var(--#{$prefix}border-style) $table-border-color;
         }
 
         .btn {
@@ -146,6 +145,23 @@ Table sort
 .table-borderless {
   thead th {
     background: transparent;
+  }
+}
+
+// Keep striped rows from overriding explicit row/cell backgrounds.
+.table.table-striped {
+  $table-explicit-bg-selector: '[class^="bg-"], [class*=" bg-"], [class^="table-"], [class*=" table-"], [class^="text-bg-"], [class*=" text-bg-"], [style*="background"]';
+
+  // Neutralize Bootstrap striping first on striped rows.
+  >tbody>tr:nth-of-type(#{$table-striped-order})>* {
+    --#{$prefix}table-color-type: initial;
+    --#{$prefix}table-bg-type: initial;
+  }
+
+  // Re-apply striping only when row/cell doesn't declare its own background.
+  >tbody>tr:nth-of-type(#{$table-striped-order}):not(:is(#{$table-explicit-bg-selector}))>*:not(:is(#{$table-explicit-bg-selector})) {
+    --#{$prefix}table-color-type: var(--#{$prefix}table-striped-color);
+    --#{$prefix}table-bg-type: var(--#{$prefix}table-striped-bg);
   }
 }
 
