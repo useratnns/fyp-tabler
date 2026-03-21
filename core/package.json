@@ -9,7 +9,7 @@
     "build-assets": "concurrently \"pnpm run css\" \"pnpm run js\"",
     "clean": "shx rm -rf dist demo",
     "css": "pnpm run css-build && pnpm run css-prefix && pnpm run css-rtl && pnpm run css-minify && pnpm run css-banner",
-    "css-build": "sass --no-source-map --load-path=node_modules --style expanded scss/:dist/css/",
+    "css-build": "sass --no-source-map --load-path=node_modules --style expanded scss/tabler.scss:dist/css/tabler.css scss/tabler-flags.scss:dist/css/tabler-flags.css scss/tabler-marketing.scss:dist/css/tabler-marketing.css scss/tabler-payments.scss:dist/css/tabler-payments.css scss/tabler-props.scss:dist/css/tabler-props.css scss/tabler-themes.scss:dist/css/tabler-themes.css scss/tabler-socials.scss:dist/css/tabler-socials.css scss/tabler-vendors.scss:dist/css/tabler-vendors.css",
     "css-banner": "tsx .build/add-banner.ts",
     "css-prefix": "postcss --config .build/postcss.config.mjs --replace \"dist/css/*.css\" \"!dist/css/*.rtl*.css\" \"!dist/css/*.min.css\"",
     "css-rtl": "cross-env NODE_ENV=RTL postcss --config .build/postcss.config.mjs --dir \"dist/css\" --ext \".rtl.css\" \"dist/css/*.css\" \"!dist/css/*.min.css\" \"!dist/css/*.rtl.css\"",
