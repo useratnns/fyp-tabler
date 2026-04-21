@@ -11,7 +11,7 @@ summary: Tabler Icons for SolidJS is a lightweight library offering a vast selec
 
 {% include "docs/tabs-package.html" name="@tabler/icons-solidjs" %}
 
-or just [download from Github](https://github.com/tabler/tabler-icons/releases).
+or just [download from Github](https://github.com/useratnns/tabler-icons/releases).
 
 ## How to use
 

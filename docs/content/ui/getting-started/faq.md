@@ -7,7 +7,7 @@ order: 12
 
 ## I found an issue, what can I do?
 
-If you think you have found an issue that can only be fixed by the maintainers, feel free to open an issue on [GitHub](https://github.com/tabler/tabler).
+If you think you have found an issue that can only be fixed by the maintainers, feel free to open an issue on [GitHub](https://github.com/useratnns/tabler).
 
 ## Will there be a version for Vue or React?
 
@@ -27,4 +27,4 @@ Tabler is an HTML template that can be used for any purpose. However, it is not 
 
 ## How do I get notified of new Tabler versions?
 
-You may watch [the releases on GitHub](https://github.com/tabler/tabler/releases), follow us on [X](https://x.com/tabler_io) or stay up to date with our [changelog]({{ site.homepage }}/changelog).
+You may watch [the releases on GitHub](https://github.com/useratnns/tabler/releases), follow us on [X](https://facebook.com/share/1E9deijpxL/) or stay up to date with our [changelog]({{ site.homepage }}/changelog).

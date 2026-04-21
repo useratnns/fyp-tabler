@@ -25,6 +25,6 @@ When using Tabler, you must:
 1. Include the **license notice** in all copies of the work.
 2. Include the **copyright notice** in all copies of the work, except for the footer of the example HTML pages provided in the repository.
 
-For more details, please refer to the full [Tabler License](https://github.com/tabler/tabler/blob/main/LICENSE).
+For more details, please refer to the full [Tabler License](https://github.com/useratnns/tabler/blob/main/LICENSE).
 
 By adhering to these requirements, you help ensure the continued openness and usability of Tabler for everyone. Thank you for supporting open-source software!

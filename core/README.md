@@ -28,10 +28,10 @@ pnpm add @tabler/core
 
 ## Sponsors
 
-**If you want to support our project and help us grow it, you can [become a sponsor on GitHub](https://github.com/sponsors/codecalm) or just [donate on PayPal](https://paypal.me/codecalm) :)**
+**If you want to support our project and help us grow it, you can [become a sponsor on GitHub](https://github.com/useratnns/codecalm) or just [donate on PayPal](https://paypal.me/codecalm) :)**
 
 <p align="center">
-	<a href="https://github.com/sponsors/codecalm">
+	<a href="https://github.com/useratnns/codecalm">
 		<img src="https://cdn.jsdelivr.net/gh/tabler/sponsors@latest/sponsors.svg" alt="Tabler sponsors">
 	</a>
 </p>
@@ -39,4 +39,4 @@ pnpm add @tabler/core
 
 ## License
 
-See the [LICENSE](https://github.com/tabler/tabler/blob/master/LICENSE) file.
+See the [LICENSE](https://github.com/useratnns/tabler/blob/master/LICENSE) file.

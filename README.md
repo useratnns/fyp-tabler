@@ -1,5 +1,5 @@
 <p align="center">
-<a href="https://github.com/tabler/tabler"><img src="https://raw.githubusercontent.com/tabler/tabler/refs/heads/dev/shared/static/logo.svg" alt="A premium and open source dashboard template with a responsive and high-quality UI." width="300"></a><br><br>
+<a href="https://github.com/useratnns/tabler"><img src="https://raw.githubusercontent.com/tabler/tabler/refs/heads/dev/shared/static/logo.svg" alt="A premium and open source dashboard template with a responsive and high-quality UI." width="300"></a><br><br>
 A premium and open source dashboard template with a responsive and high-quality UI.
 </p>
 
@@ -7,18 +7,18 @@ A premium and open source dashboard template with a responsive and high-quality 
 <a href="https://www.npmjs.com/package/@tabler/core" target="__blank"><img src="https://img.shields.io/npm/v/@tabler/core?color=1864ab&label=Latest+version" alt="NPM version"></a>
 <a href="https://www.npmjs.com/package/@tabler/core" target="__blank"><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/@tabler/core?color=1971c2&label=Downloads"></a>
 <a href="https://preview.tabler.io" target="__blank"><img src="https://img.shields.io/static/v1?label=Demo&message=preview&color=228be6" alt="Tabler preview"></a>
-<a href="https://github.com/tabler/tabler/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/tabler.svg?label=License&message=MIT&color=1c7ed6" alt="License"></a>
-<a href="https://github.com/tabler/tabler/archive/dev.zip" target="__blank"><img src="https://img.shields.io/static/v1?label=Download&message=ZIP&color=339af0" alt="Tabler preview"></a>
-<a href="https://github.com/tabler/tabler/actions/workflows/test.yml" target="__blank"><img alt="Test build" src="https://github.com/tabler/tabler/actions/workflows/test.yml/badge.svg"></a>
-<a href="https://github.com/tabler/tabler" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/tabler/tabler?style=social"></a>
+<a href="https://github.com/useratnns/tabler/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/tabler.svg?label=License&message=MIT&color=1c7ed6" alt="License"></a>
+<a href="https://github.com/useratnns/tabler/archive/dev.zip" target="__blank"><img src="https://img.shields.io/static/v1?label=Download&message=ZIP&color=339af0" alt="Tabler preview"></a>
+<a href="https://github.com/useratnns/tabler/actions/workflows/test.yml" target="__blank"><img alt="Test build" src="https://github.com/useratnns/tabler/actions/workflows/test.yml/badge.svg"></a>
+<a href="https://github.com/useratnns/tabler" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/tabler/tabler?style=social"></a>
 </p>
 
 ## Sponsors
 
-**If you want to support our project and help us grow it, you can [become a sponsor on GitHub](https://github.com/sponsors/codecalm) or just [donate on PayPal](https://paypal.me/codecalm) :)**
+**If you want to support our project and help us grow it, you can [become a sponsor on GitHub](https://github.com/useratnns/codecalm) or just [donate on PayPal](https://paypal.me/codecalm) :)**
 
 <p align="center">
-	<a href="https://github.com/sponsors/codecalm">
+	<a href="https://github.com/useratnns/codecalm">
 		<img src="https://cdn.jsdelivr.net/gh/tabler/sponsors@latest/sponsors.svg" alt="Tabler sponsors">
 	</a>
 </p>
@@ -30,9 +30,9 @@ A premium and open source dashboard template with a responsive and high-quality 
 <p align="center">
 	<a href="https://www.lambdatest.com/" target="_blank">
 		<picture>
-			<source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/14dd2a0a-bafe-436e-a6cb-29636278c781">
-			<source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/d3dede5a-d702-47c3-bb66-4d887948ed83">
-			<img src="https://github.com/user-attachments/assets/d3dede5a-d702-47c3-bb66-4d887948ed83" alt="labmdatest" width="296">
+			<source media="(prefers-color-scheme: dark)" srcset="https://github.com/useratnns/assets/14dd2a0a-bafe-436e-a6cb-29636278c781">
+			<source media="(prefers-color-scheme: light)" srcset="https://github.com/useratnns/assets/d3dede5a-d702-47c3-bb66-4d887948ed83">
+			<img src="https://github.com/useratnns/assets/d3dede5a-d702-47c3-bb66-4d887948ed83" alt="labmdatest" width="296">
 		</picture>
 	</a>
 </p>
@@ -49,7 +49,7 @@ Tabler is fully responsive and compatible with all modern browsers. Thanks to it
 
 ## 🚀 Features
 
-We've created this admin panel for everyone who wants to create templates based on our pre-made components. Our mission is to deliver a user-friendly, clear and easy administration panel that can be used by both simple websites and sophisticated systems. The only requirement is basic HTML and CSS (and some [Liquid](https://github.com/Shopify/liquid/wiki)) knowledge — as a reward, you'll be able to manage and visualize different types of data in the easiest possible way!
+We've created this admin panel for everyone who wants to create templates based on our pre-made components. Our mission is to deliver a user-friendly, clear and easy administration panel that can be used by both simple websites and sophisticated systems. The only requirement is basic HTML and CSS (and some [Liquid](https://github.com/useratnns/liquid/wiki)) knowledge — as a reward, you'll be able to manage and visualize different types of data in the easiest possible way!
 
 * **Responsive:** With the support for mobile, tablet and desktop displays, it doesn’t matter what device you’re using. Tabler is responsive in all major browsers.
 * **Cross Browser:** Our theme works perfectly with the latest Chrome, Firefox+, Safari, Opera, Edge and mobile browsers. We work hard to provide continuous support for them.
@@ -103,7 +103,7 @@ With either method, the first thing you'll want to do is download a copy of the 
 
 #### From the Tabler GitHub releases page
 
-If you don't want to edit the source code once you've downloaded it, and aren't interested in merging future project updates into your copy, you can just download the source files straight from the [Tabler releases on GitHub](https://github.com/tabler/tabler/releases) and extract the contents to a directory called `tabler`.
+If you don't want to edit the source code once you've downloaded it, and aren't interested in merging future project updates into your copy, you can just download the source files straight from the [Tabler releases on GitHub](https://github.com/useratnns/tabler/releases) and extract the contents to a directory called `tabler`.
 
 #### Cloning with Git
 
@@ -157,19 +157,19 @@ You can also use the docker compose config from this repo. From the root `/table
 
 ## Bugs and feature requests
 
-Found a bug or have a feature request? [Please open a new issue](https://github.com/tabler/tabler/issues/new).
+Found a bug or have a feature request? [Please open a new issue](https://github.com/useratnns/tabler/issues/new).
 
 ## 🤓 Creators
 
 **Paweł Kuna**
 
-- <https://x.com/codecalm>
+- <https://facebook.com/share/1E9deijpxL/>
 - <https://github.com/useratnns>
 - <https://codecalm.net>
 
 **Bartłomiej Gawęda**
 
-- <https://x.com/B_Gaweda>
+- <https://facebook.com/share/1E9deijpxL/>
 - <https://github.com/useratnns>
 
 ## 👨‍🚀 Contributors
@@ -180,9 +180,9 @@ This project exists thanks to all the people who contribute.
 
 ## Social media
 
-Stay up to date by joining our community on <a href="https://x.com/tabler_io" >X</a> and <a href="https://www.facebook.com/tabler.io">Facebook</a>
+Stay up to date by joining our community on <a href="https://facebook.com/share/1E9deijpxL/" >X</a> and <a href="https://facebook.com/share/1E9deijpxL/">Facebook</a>
 
 ## License
 
-See the [LICENSE](https://github.com/tabler/tabler/blob/master/LICENSE) file.
+See the [LICENSE](https://github.com/useratnns/tabler/blob/master/LICENSE) file.
 

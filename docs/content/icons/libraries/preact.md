@@ -10,7 +10,7 @@ summary: Tabler Icons for Preact provides an optimized collection of icons speci
 
 {% include "docs/tabs-package.html" name="@tabler/icons-preact" %}
 
-or just [download from Github](https://github.com/tabler/tabler-icons/releases).
+or just [download from Github](https://github.com/useratnns/tabler-icons/releases).
 
 ## How to use
 

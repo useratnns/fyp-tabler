@@ -11,7 +11,7 @@ summary: Tabler Icons for Svelte provides a clean and efficient way to use Table
 
 {% include "docs/tabs-package.html" name="@tabler/icons-svelte" %}
 
-or just [download from Github](https://github.com/tabler/tabler-icons/releases).
+or just [download from Github](https://github.com/useratnns/tabler-icons/releases).
 
 ## How to use
 

@@ -50,7 +50,7 @@ For the Vimeo video you just need to change the `data-plyr-provider`.
 
 ## HTML5 video and audio
 
-Check out the [Plyr documentation](https://github.com/sampotts/plyr) for more options and examples, including HTML5 video and audio support.
+Check out the [Plyr documentation](https://github.com/useratnns/plyr) for more options and examples, including HTML5 video and audio support.
 
 ## Customization
 
@@ -60,4 +60,4 @@ The Inline Player uses the primary color as the default color scheme. You can cu
 --plyr-color-main: #ff0000; /* Change to your desired color */
 ```
 
-For more customization options, refer to the [Customizing the CSS](https://github.com/sampotts/plyr?tab=readme-ov-file#customizing-the-css) section in the Plyr documentation.
+For more customization options, refer to the [Customizing the CSS](https://github.com/useratnns/plyr?tab=readme-ov-file#customizing-the-css) section in the Plyr documentation.

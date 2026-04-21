@@ -9,7 +9,7 @@ description: Download Tabler Icons in SVG format.
 
 {% include "docs/tabs-package.html" name="@tabler/icons" %}
 
-or just [download from Github](https://github.com/tabler/tabler-icons/releases).
+or just [download from Github](https://github.com/useratnns/tabler-icons/releases).
 
 ## Usage
 

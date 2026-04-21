@@ -10,7 +10,7 @@ summary: Tabler Icons for React offers a robust set of icons tailored for React 
 
 {% include "docs/tabs-package.html" name="@tabler/icons-react" %}
 
-or just [download from Github](https://github.com/tabler/tabler-icons/releases).
+or just [download from Github](https://github.com/useratnns/tabler-icons/releases).
 
 ## How to use
 

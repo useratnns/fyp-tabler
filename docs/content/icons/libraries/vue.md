@@ -11,7 +11,7 @@ summary: Tabler Icons for Vue offers a collection of customizable and scalable i
 
 {% include "docs/tabs-package.html" name="@tabler/icons-vue" %}
 
-or just [download from Github](https://github.com/tabler/tabler-icons/releases).
+or just [download from Github](https://github.com/useratnns/tabler-icons/releases).
 
 ## How to use
 

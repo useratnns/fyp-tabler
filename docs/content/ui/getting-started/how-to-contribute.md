@@ -24,7 +24,7 @@ Follow these steps to set up Tabler for development:
 2. Clone the repository to your local machine:
 
    ```bash
-   git clone https://github.com/YOUR_USERNAME/tabler.git
+   git clone https://github.com/useratnns/tabler.git
    ```
 
 3. Create a new branch for your changes:
